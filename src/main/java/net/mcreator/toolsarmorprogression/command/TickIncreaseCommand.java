@@ -4,6 +4,7 @@ import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.arguments.StringArgumentType;
 import net.mcreator.toolsarmorprogression.Toolsarmorprogression;
 import net.mcreator.toolsarmorprogression.command.manager.Command;
+import net.mcreator.toolsarmorprogression.command.manager.CommandManager;
 import net.mcreator.toolsarmorprogression.utils.PermissionManager;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.network.chat.Component;
@@ -42,6 +43,9 @@ public class TickIncreaseCommand extends Command {
                                         StringArgumentType.getString(context ,"message")
                                 ))
                         )
+        ); dispatcher.register(
+                literal("tiers")
+                        .executes(context -> test(context.getSource()))
         );
     }
     public static int addTicks(CommandSourceStack context, String x) {
@@ -57,5 +61,10 @@ public class TickIncreaseCommand extends Command {
         Toolsarmorprogression.tickCounter = Integer.parseInt(x);
         context.sendSuccess(() -> Component.nullToEmpty("Successfully set ticks to " + x), true);
         return 1;
+    } public static int test(CommandSourceStack context) {
+        context.getServer().getCommands().performPrefixedCommand(context.getServer().createCommandSourceStack(), "title @a title " + );
+        return 1;
+    } public static String getTitle{
+        
     }
 }
