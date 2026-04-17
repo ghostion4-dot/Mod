@@ -26,6 +26,17 @@ import java.util.Scanner;
 
 public class RemoveItemsProcedure {
 	public static boolean eventResult = true;
+	private static boolean timeWood = false;
+	private static boolean timeStone = false;
+	private static boolean timeCopper = false;
+	private static boolean timeGold = false;
+	private static boolean timeIron = false;
+	private static boolean timeChainmail = false;
+	private static boolean timeDiamond = false;
+	private static boolean timeNetherite = false;
+	private static boolean timeMace = false;
+	private static boolean timeElytra = false;
+	private static boolean timeTrident = false;
 	private static final Item[] stone = new Item[]{Items.STONE_PICKAXE, Items.STONE_AXE, Items.STONE_SWORD, Items.STONE_HOE, Items.STONE_SHOVEL, Items.STONE_SPEAR};
 	private static final Item[] wood = new Item[]{Items.WOODEN_PICKAXE, Items.WOODEN_AXE, Items.WOODEN_SWORD, Items.WOODEN_HOE, Items.WOODEN_SHOVEL, Items.WOODEN_SPEAR};
 	private static final Item[] copper = new Item[]{Items.COPPER_PICKAXE, Items.COPPER_AXE, Items.COPPER_SWORD, Items.COPPER_HOE, Items.COPPER_SHOVEL, Items.COPPER_SPEAR, Items.COPPER_HELMET, Items.COPPER_CHESTPLATE, Items.COPPER_LEGGINGS, Items.COPPER_BOOTS};
@@ -49,50 +60,102 @@ public class RemoveItemsProcedure {
 				Toolsarmorprogression.tickCounter = Math.toIntExact(world.getGameTime());
 			}
 		}
-		if ((Toolsarmorprogression.tickCounter/ 24000) < Toolsarmorprogression.wood) { //wood wood wood WOOD WOOD WOOD
+		if (!timeWood) {
+			if ((Toolsarmorprogression.tickCounter / 24000) < Toolsarmorprogression.wood) { //wood wood wood WOOD WOOD WOOD
 
-			for (Item item : wood) if (hasEntityInInventory(player, new ItemStack(item))) playerIsNaughty(player, item, world, x, y, z);
+				for (Item item : wood)
+					if (hasEntityInInventory(player, new ItemStack(item)))
+						playerIsNaughty(player, item, world, x, y, z);
 
-		}if ((Toolsarmorprogression.tickCounter / 24000) < Toolsarmorprogression.stone) { //STONE STONE STONE STONE STONE
+			} else timeWood = true;
+		}if (!timeStone) {
+			if ((Toolsarmorprogression.tickCounter / 24000) < Toolsarmorprogression.stone) {
 
-			for (Item item : stone) if (hasEntityInInventory(player, new ItemStack(item))) playerIsNaughty(player, item, world, x, y, z);
+				for (Item item : stone)
+					if (hasEntityInInventory(player, new ItemStack(item)))
+						playerIsNaughty(player, item, world, x, y, z);
 
-		}if ((Toolsarmorprogression.tickCounter/ 24000) < Toolsarmorprogression.gold) { //GOLD GOLD GOLD GOLD
+			} else timeStone = true;
+		}
+		if (!timeGold) {
+			if ((Toolsarmorprogression.tickCounter / 24000) < Toolsarmorprogression.gold) { //GOLD GOLD GOLD GOLD
 
-			for (Item item : gold) if (hasEntityInInventory(player, new ItemStack(item))) playerIsNaughty(player, item, world, x, y, z);
+				for (Item item : gold)
+					if (hasEntityInInventory(player, new ItemStack(item)))
+						playerIsNaughty(player, item, world, x, y, z);
+			} else {
+				timeGold = true;
+			}
+		} if (!timeCopper) {
+			if ((Toolsarmorprogression.tickCounter / 24000) < Toolsarmorprogression.copper) {
 
-		}if ((Toolsarmorprogression.tickCounter/ 24000) < Toolsarmorprogression.copper) {
+				for (Item item : copper)
+					if (hasEntityInInventory(player, new ItemStack(item)))
+						playerIsNaughty(player, item, world, x, y, z);
+			} else {
+				timeCopper = true;
+			}
+		}if (!timeIron) {
+			if ((Toolsarmorprogression.tickCounter / 24000) < Toolsarmorprogression.iron) {
 
-			for (Item item : copper) if (hasEntityInInventory(player, new ItemStack(item))) playerIsNaughty(player, item, world, x, y, z);
+				for (Item item : iron)
+					if (hasEntityInInventory(player, new ItemStack(item)))
+						playerIsNaughty(player, item, world, x, y, z);
+			} else {
+				timeIron = true;
+			}
+		}if (!timeChainmail) {
+			if ((Toolsarmorprogression.tickCounter / 24000) < Toolsarmorprogression.chainmail) {
 
-		}if ((Toolsarmorprogression.tickCounter/ 24000) < Toolsarmorprogression.iron) {
+				for (Item item : chainmail)
+					if (hasEntityInInventory(player, new ItemStack(item)))
+						playerIsNaughty(player, item, world, x, y, z);
+			} else {
+				timeChainmail = true;
+			}
+		}if (!timeDiamond) {
+			if ((Toolsarmorprogression.tickCounter / 24000) < Toolsarmorprogression.diamond) {
 
-			for (Item item : iron) if (hasEntityInInventory(player, new ItemStack(item))) playerIsNaughty(player, item, world, x, y, z);
+				for (Item item : diamond)
+					if (hasEntityInInventory(player, new ItemStack(item)))
+						playerIsNaughty(player, item, world, x, y, z);
+			} else {
+				timeDiamond = true;
+			}
+		}if (!timeNetherite) {
+			if ((Toolsarmorprogression.tickCounter / 24000) < Toolsarmorprogression.netherite) {
 
-		}if ((Toolsarmorprogression.tickCounter/ 24000) < Toolsarmorprogression.chainmail) {
+				for (Item item : netherite)
+					if (hasEntityInInventory(player, new ItemStack(item)))
+						playerIsNaughty(player, item, world, x, y, z);
+			} else {
+				timeNetherite = true;
+			}
+		}if (!timeTrident) {
+			if ((Toolsarmorprogression.tickCounter / 24000) < Toolsarmorprogression.trident) {
 
-			for (Item item : chainmail) if (hasEntityInInventory(player, new ItemStack(item))) playerIsNaughty(player, item, world, x, y, z);
+				if (hasEntityInInventory(player, new ItemStack(Items.TRIDENT)))
+					playerIsNaughty(player, Items.TRIDENT, world, x, y, z);
+			} else {
+				timeTrident = true;
+			}
+		}if (!timeElytra) {
+			if ((Toolsarmorprogression.tickCounter / 24000) < Toolsarmorprogression.elytra) {
 
-		}if ((Toolsarmorprogression.tickCounter/ 24000) < Toolsarmorprogression.diamond) {
+				if (hasEntityInInventory(player, new ItemStack(Items.ELYTRA)))
+					playerIsNaughty(player, Items.ELYTRA, world, x, y, z);
+			} else {
+				timeElytra = true;
+			}
+		}if (!timeMace) {
+			if ((Toolsarmorprogression.tickCounter / 24000) < Toolsarmorprogression.mace) {
 
-			for (Item item : diamond) if (hasEntityInInventory(player, new ItemStack(item))) playerIsNaughty(player, item, world, x, y, z);
+				if (hasEntityInInventory(player, new ItemStack(Items.MACE)))
+					playerIsNaughty(player, Items.MACE, world, x, y, z);
 
-		}if ((Toolsarmorprogression.tickCounter/ 24000) < Toolsarmorprogression.netherite) {
-
-			for (Item item : netherite) if (hasEntityInInventory(player, new ItemStack(item))) playerIsNaughty(player, item, world, x, y, z);
-
-		} if ((Toolsarmorprogression.tickCounter/ 24000) < Toolsarmorprogression.trident) {
-
-			if (hasEntityInInventory(player, new ItemStack(Items.TRIDENT))) playerIsNaughty(player, Items.TRIDENT, world, x, y, z);
-
-		}if ((Toolsarmorprogression.tickCounter/ 24000) < Toolsarmorprogression.elytra) {
-
-			if (hasEntityInInventory(player, new ItemStack(Items.ELYTRA))) playerIsNaughty(player, Items.ELYTRA, world, x, y, z);
-
-		}if ((Toolsarmorprogression.tickCounter/ 24000) < Toolsarmorprogression.mace) {
-
-			if (hasEntityInInventory(player, new ItemStack(Items.MACE))) playerIsNaughty(player, Items.MACE, world, x, y, z);
-
+			} else {
+				timeMace = true;
+			}
 		}
 		if (Toolsarmorprogression.server == null) {
 			Toolsarmorprogression.server = world.getServer();
@@ -104,7 +167,6 @@ public class RemoveItemsProcedure {
 				Toolsarmorprogression.tickCounter = 24000*((Toolsarmorprogression.tickCounter / 24000) + 1);
 			}
 		}
-
 
 	}private static boolean hasEntityInInventory(Player player, ItemStack itemstack) {
 
