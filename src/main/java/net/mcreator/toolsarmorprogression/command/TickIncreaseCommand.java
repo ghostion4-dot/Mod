@@ -9,6 +9,8 @@ import net.mcreator.toolsarmorprogression.utils.PermissionManager;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.network.chat.Component;
 
+import java.util.Objects;
+
 public class TickIncreaseCommand extends Command {
     @Override
     public boolean isAllowed() {
@@ -62,9 +64,8 @@ public class TickIncreaseCommand extends Command {
         context.sendSuccess(() -> Component.nullToEmpty("Successfully set ticks to " + x), true);
         return 1;
     } public static int test(CommandSourceStack context) {
-        context.getServer().getCommands().performPrefixedCommand(context.getServer().createCommandSourceStack(), "title @a title " + );
+        String player = Objects.requireNonNull(context.getPlayer()).getPlainTextName();
+        context.getServer().getCommands().performPrefixedCommand(context.getServer().createCommandSourceStack(), "title " + player + " title ");
         return 1;
-    } public static String getTitle{
-        
     }
 }
