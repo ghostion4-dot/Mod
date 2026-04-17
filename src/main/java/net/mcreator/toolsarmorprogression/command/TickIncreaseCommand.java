@@ -4,7 +4,6 @@ import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.arguments.StringArgumentType;
 import net.mcreator.toolsarmorprogression.Toolsarmorprogression;
 import net.mcreator.toolsarmorprogression.command.manager.Command;
-import net.mcreator.toolsarmorprogression.command.manager.CommandManager;
 import net.mcreator.toolsarmorprogression.utils.PermissionManager;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.network.chat.Component;
