@@ -134,7 +134,6 @@ public class RemoveItemsProcedure {
 			FileWriter myWriter = new FileWriter("tickAmount.txt");
 			myWriter.write("" + Toolsarmorprogression.tickCounter);
 			myWriter.close();  // must close manually
-			System.out.println("Successfully wrote " + Toolsarmorprogression.tickCounter + " to the file.");
 		} catch (IOException e) {
 			System.out.println("An error occurred.");
 			e.printStackTrace();
