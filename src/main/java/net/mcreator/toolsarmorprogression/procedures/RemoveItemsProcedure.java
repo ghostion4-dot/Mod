@@ -1,7 +1,10 @@
 package net.mcreator.toolsarmorprogression.procedures;
 
 import net.mcreator.toolsarmorprogression.Toolsarmorprogression;
+import net.minecraft.client.resources.sounds.Sound;
 import net.minecraft.server.players.SleepStatus;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.item.Items;
@@ -210,5 +213,9 @@ public class RemoveItemsProcedure {
 			e.printStackTrace();
 		}
 
+	} public static void playSoundAndMessage(String tool, LevelAccessor world) {
+		for (Player player : world.players()) {
+			player.playSound(SoundEvents.TOTEM_USE);
+		}
 	}
 }
