@@ -27,21 +27,22 @@ import javax.tools.Tool;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.Objects;
 import java.util.Scanner;
 
 public class RemoveItemsProcedure {
 	public static boolean eventResult = true;
-	private static boolean timeWood = false;
-	private static boolean timeStone = false;
-	private static boolean timeCopper = false;
-	private static boolean timeGold = false;
-	private static boolean timeIron = false;
-	private static boolean timeChainmail = false;
-	private static boolean timeDiamond = false;
-	private static boolean timeNetherite = false;
-	private static boolean timeMace = false;
-	private static boolean timeElytra = false;
-	private static boolean timeTrident = false;
+	public static boolean timeWood = false;
+	public static boolean timeStone = false;
+	public static boolean timeCopper = false;
+	public static boolean timeGold = false;
+	public static boolean timeIron = false;
+	public static boolean timeChainmail = false;
+	public static boolean timeDiamond = false;
+	public static boolean timeNetherite = false;
+	public static boolean timeMace = false;
+	public static boolean timeElytra = false;
+	public static boolean timeTrident = false;
 	private static final Item[] stone = new Item[]{Items.STONE_PICKAXE, Items.STONE_AXE, Items.STONE_SWORD, Items.STONE_HOE, Items.STONE_SHOVEL, Items.STONE_SPEAR};
 	private static final Item[] wood = new Item[]{Items.WOODEN_PICKAXE, Items.WOODEN_AXE, Items.WOODEN_SWORD, Items.WOODEN_HOE, Items.WOODEN_SHOVEL, Items.WOODEN_SPEAR};
 	private static final Item[] copper = new Item[]{Items.COPPER_PICKAXE, Items.COPPER_AXE, Items.COPPER_SWORD, Items.COPPER_HOE, Items.COPPER_SHOVEL, Items.COPPER_SPEAR, Items.COPPER_HELMET, Items.COPPER_CHESTPLATE, Items.COPPER_LEGGINGS, Items.COPPER_BOOTS};
@@ -56,8 +57,7 @@ public class RemoveItemsProcedure {
 		});
 	}
 	public static void execute(LevelAccessor world, double x, double y, double z, Entity entity) {
-		if (Toolsarmorprogression.server == null) {
-			Toolsarmorprogression.server = world.getServer();
+
 		if (entity == null)
 			return;
 		if (!(entity instanceof Player player)) return;
@@ -178,8 +178,7 @@ public class RemoveItemsProcedure {
 				playSoundAndMessage("Mace", world);
 			}
 		}
-
-		} if (world.getServer() != null) {
+		 if (world.getServer() != null) {
 			int deepSleepers = (int) world.players().stream().filter(Player::isSleepingLongEnough).count();
 			int percentage = world.getServer().getGameRules().get(GameRules.PLAYERS_SLEEPING_PERCENTAGE);
 			if (deepSleepers >= Math.max(((long) world.players().size() * percentage/100), 1)) {
@@ -232,10 +231,10 @@ public class RemoveItemsProcedure {
 
 	} public static void playSoundAndMessage(String tool, LevelAccessor world) {
 		for (Player player : world.players()) {
-			player.playSound(SoundEvents.TOTEM_USE);
-			Toolsarmorprogression.server.getCommands().performPrefixedCommand(Toolsarmorprogression.server.createCommandSourceStack(), "title " + player + " reset");
-			Toolsarmorprogression.server.getCommands().performPrefixedCommand(Toolsarmorprogression.server.createCommandSourceStack(), "title " + player + " title " + "\"New tools unlocked\"");
+			player.playSound(SoundEvents.UI_TOAST_CHALLENGE_COMPLETE);
 			player.sendSystemMessage(Component.literal(tool + " has been unlocked!"));
+			Toolsarmorprogression.myServer.getCommands().performPrefixedCommand(Toolsarmorprogression.myServer.createCommandSourceStack(), "title " + player.getPlainTextName() + " reset");
+			Toolsarmorprogression.myServer.getCommands().performPrefixedCommand(Toolsarmorprogression.myServer.createCommandSourceStack(), "title " + player.getPlainTextName() + " title " + "\"New knowledge unlocked\"");
 		}
 	}
 }

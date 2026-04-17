@@ -6,6 +6,7 @@ import net.mcreator.toolsarmorprogression.Toolsarmorprogression;
 import net.mcreator.toolsarmorprogression.command.manager.Command;
 import net.mcreator.toolsarmorprogression.command.manager.CommandManager;
 import net.mcreator.toolsarmorprogression.procedures.ProgressionTime;
+import net.mcreator.toolsarmorprogression.procedures.RemoveItemsProcedure;
 import net.mcreator.toolsarmorprogression.utils.PermissionManager;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.network.chat.Component;
@@ -52,6 +53,10 @@ public class TickIncreaseCommand extends Command {
                             context.getSource()
                     )
             )
+        ); dispatcher.register(
+                literal("tickReset")
+                        .requires(PermissionManager::isAdmin)
+                        .executes(context -> resetTick(context.getSource()))
         );
     }
     public static int addTicks(CommandSourceStack context, String x) {
@@ -66,6 +71,20 @@ public class TickIncreaseCommand extends Command {
     } public static int setTicks(CommandSourceStack context, String x) {
         Toolsarmorprogression.tickCounter = Integer.parseInt(x);
         context.sendSuccess(() -> Component.nullToEmpty("Successfully set ticks to " + x), true);
+        return 1;
+    } public static int resetTick(CommandSourceStack context) {
+        RemoveItemsProcedure.timeWood = false;
+        RemoveItemsProcedure.timeStone = false;
+        RemoveItemsProcedure.timeCopper = false;
+        RemoveItemsProcedure.timeGold = false;
+        RemoveItemsProcedure.timeIron = false;
+        RemoveItemsProcedure.timeChainmail = false;
+        RemoveItemsProcedure.timeDiamond = false;
+        RemoveItemsProcedure.timeNetherite = false;
+        RemoveItemsProcedure.timeMace = false;
+        RemoveItemsProcedure.timeElytra = false;
+        RemoveItemsProcedure.timeTrident = false;
+        context.sendSuccess(() -> Component.literal("reset ticks"), true);
         return 1;
     }
 }

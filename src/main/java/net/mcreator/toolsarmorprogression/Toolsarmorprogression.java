@@ -50,7 +50,7 @@ public class Toolsarmorprogression implements ModInitializer {
 	public static int tickCounter = 0;
 	public static boolean test = false;
 	public static boolean tickSet = false;
-	public static MinecraftServer server;
+	public static MinecraftServer myServer;
 	public void onInitialize() {
 		// Start of user code block mod constructor
 		// End of user code block mod constructor
@@ -73,6 +73,7 @@ public class Toolsarmorprogression implements ModInitializer {
 
 	private void tick() {
 		ServerTickEvents.END_SERVER_TICK.register((server) -> {
+			myServer = server;
 			int currentTick = server.getTickCount();
 			tickCounter++;
 			if (tickCounter%100 == 0) {
