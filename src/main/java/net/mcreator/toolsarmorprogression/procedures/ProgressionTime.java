@@ -18,6 +18,7 @@ public class ProgressionTime {
                 tier_index = i;
                 break;
             }
+        }
         int next_tier_day =  tiers[tier_index]; // Calculate the exact appropriate times
         String next_tier_name = next_tier[tier_index];
         int remaining_days = next_tier_day - current_day;
@@ -45,7 +46,6 @@ public class ProgressionTime {
         context.getServer().getCommands().performPrefixedCommand(context.getServer().createCommandSourceStack(), "title " + player + " title " + "\""+ big_message + "\"");
         context.getServer().getCommands().performPrefixedCommand(context.getServer().createCommandSourceStack(), "title " + player + " subtitle " + "\""+ small_message + "\"");
 
-        }
         return 1;
     }
 }

@@ -56,7 +56,6 @@ public class Toolsarmorprogression implements ModInitializer {
 		// End of user code block mod constructor
 		LOGGER.info("Initializing ToolsArmorProgressionMod");
 		CommandRegistrationCallback.EVENT.register(CommandManager::registerAllCommands);
-
 		ToolsArmorProgressionModProcedures.load();
 		tick();
 		// Start of user code block mod init

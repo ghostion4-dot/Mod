@@ -2,6 +2,7 @@ package net.mcreator.toolsarmorprogression.procedures;
 
 import net.mcreator.toolsarmorprogression.Toolsarmorprogression;
 import net.minecraft.client.resources.sounds.Sound;
+import net.minecraft.network.chat.Component;
 import net.minecraft.server.players.SleepStatus;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
@@ -22,6 +23,7 @@ import net.minecraft.core.BlockPos;
 import net.mcreator.toolsarmorprogression.event.PlayerEvents;
 import net.minecraft.world.level.gamerules.GameRules;
 
+import javax.tools.Tool;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -54,6 +56,8 @@ public class RemoveItemsProcedure {
 		});
 	}
 	public static void execute(LevelAccessor world, double x, double y, double z, Entity entity) {
+		if (Toolsarmorprogression.server == null) {
+			Toolsarmorprogression.server = world.getServer();
 		if (entity == null)
 			return;
 		if (!(entity instanceof Player player)) return;
@@ -69,8 +73,10 @@ public class RemoveItemsProcedure {
 				for (Item item : wood)
 					if (hasEntityInInventory(player, new ItemStack(item)))
 						playerIsNaughty(player, item, world, x, y, z);
-
-			} else timeWood = true;
+			} else {
+				timeWood = true;
+				playSoundAndMessage("Wooden tools", world);
+			}
 		}if (!timeStone) {
 			if ((Toolsarmorprogression.tickCounter / 24000) < Toolsarmorprogression.stone) {
 
@@ -78,7 +84,10 @@ public class RemoveItemsProcedure {
 					if (hasEntityInInventory(player, new ItemStack(item)))
 						playerIsNaughty(player, item, world, x, y, z);
 
-			} else timeStone = true;
+			} else {
+				timeStone = true;
+				playSoundAndMessage("Stone tools", world);
+			}
 		}
 		if (!timeGold) {
 			if ((Toolsarmorprogression.tickCounter / 24000) < Toolsarmorprogression.gold) { //GOLD GOLD GOLD GOLD
@@ -88,6 +97,7 @@ public class RemoveItemsProcedure {
 						playerIsNaughty(player, item, world, x, y, z);
 			} else {
 				timeGold = true;
+				playSoundAndMessage("Golden tools", world);
 			}
 		} if (!timeCopper) {
 			if ((Toolsarmorprogression.tickCounter / 24000) < Toolsarmorprogression.copper) {
@@ -97,6 +107,7 @@ public class RemoveItemsProcedure {
 						playerIsNaughty(player, item, world, x, y, z);
 			} else {
 				timeCopper = true;
+				playSoundAndMessage("Copper tools", world);
 			}
 		}if (!timeIron) {
 			if ((Toolsarmorprogression.tickCounter / 24000) < Toolsarmorprogression.iron) {
@@ -106,6 +117,7 @@ public class RemoveItemsProcedure {
 						playerIsNaughty(player, item, world, x, y, z);
 			} else {
 				timeIron = true;
+				playSoundAndMessage("Iron tools", world);
 			}
 		}if (!timeChainmail) {
 			if ((Toolsarmorprogression.tickCounter / 24000) < Toolsarmorprogression.chainmail) {
@@ -115,6 +127,7 @@ public class RemoveItemsProcedure {
 						playerIsNaughty(player, item, world, x, y, z);
 			} else {
 				timeChainmail = true;
+				playSoundAndMessage("Chainmail armor", world);
 			}
 		}if (!timeDiamond) {
 			if ((Toolsarmorprogression.tickCounter / 24000) < Toolsarmorprogression.diamond) {
@@ -124,6 +137,7 @@ public class RemoveItemsProcedure {
 						playerIsNaughty(player, item, world, x, y, z);
 			} else {
 				timeDiamond = true;
+				playSoundAndMessage("Diamond tools", world);
 			}
 		}if (!timeNetherite) {
 			if ((Toolsarmorprogression.tickCounter / 24000) < Toolsarmorprogression.netherite) {
@@ -133,6 +147,7 @@ public class RemoveItemsProcedure {
 						playerIsNaughty(player, item, world, x, y, z);
 			} else {
 				timeNetherite = true;
+				playSoundAndMessage("Netherite tools", world);
 			}
 		}if (!timeTrident) {
 			if ((Toolsarmorprogression.tickCounter / 24000) < Toolsarmorprogression.trident) {
@@ -141,6 +156,7 @@ public class RemoveItemsProcedure {
 					playerIsNaughty(player, Items.TRIDENT, world, x, y, z);
 			} else {
 				timeTrident = true;
+				playSoundAndMessage("Trident", world);
 			}
 		}if (!timeElytra) {
 			if ((Toolsarmorprogression.tickCounter / 24000) < Toolsarmorprogression.elytra) {
@@ -149,6 +165,7 @@ public class RemoveItemsProcedure {
 					playerIsNaughty(player, Items.ELYTRA, world, x, y, z);
 			} else {
 				timeElytra = true;
+				playSoundAndMessage("Elytra", world);
 			}
 		}if (!timeMace) {
 			if ((Toolsarmorprogression.tickCounter / 24000) < Toolsarmorprogression.mace) {
@@ -158,10 +175,10 @@ public class RemoveItemsProcedure {
 
 			} else {
 				timeMace = true;
+				playSoundAndMessage("Mace", world);
 			}
 		}
-		if (Toolsarmorprogression.server == null) {
-			Toolsarmorprogression.server = world.getServer();
+
 		} if (world.getServer() != null) {
 			int deepSleepers = (int) world.players().stream().filter(Player::isSleepingLongEnough).count();
 			int percentage = world.getServer().getGameRules().get(GameRules.PLAYERS_SLEEPING_PERCENTAGE);
@@ -216,6 +233,9 @@ public class RemoveItemsProcedure {
 	} public static void playSoundAndMessage(String tool, LevelAccessor world) {
 		for (Player player : world.players()) {
 			player.playSound(SoundEvents.TOTEM_USE);
+			Toolsarmorprogression.server.getCommands().performPrefixedCommand(Toolsarmorprogression.server.createCommandSourceStack(), "title " + player + " reset");
+			Toolsarmorprogression.server.getCommands().performPrefixedCommand(Toolsarmorprogression.server.createCommandSourceStack(), "title " + player + " title " + "\"New tools unlocked\"");
+			player.sendSystemMessage(Component.literal(tool + " has been unlocked!"));
 		}
 	}
 }
