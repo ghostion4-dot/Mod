@@ -46,6 +46,7 @@ public class Toolsarmorprogression implements ModInitializer {
 	public static final int iron = 16; // In days
 	public static final int diamond = 64; // In days
 	public static final int netherite = 256; // In days
+	public static final int[] tiers = {wood, stone, copper, gold, chainmail, trident, mace, elytra, iron, diamond, netherite};
 	public static int tickCounter = 0;
 	public static boolean test = false;
 	public static boolean tickSet = false;
