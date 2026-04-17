@@ -1,6 +1,7 @@
 package net.mcreator.toolsarmorprogression.procedures;
 
 import net.mcreator.toolsarmorprogression.Toolsarmorprogression;
+import net.minecraft.server.players.SleepStatus;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.item.Items;
@@ -16,6 +17,7 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.core.BlockPos;
 import net.mcreator.toolsarmorprogression.event.PlayerEvents;
+import net.minecraft.world.level.gamerules.GameRules;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -94,6 +96,12 @@ public class RemoveItemsProcedure {
 		}
 		if (Toolsarmorprogression.server == null) {
 			Toolsarmorprogression.server = world.getServer();
+		} if (world.getServer() != null) {
+			int deepSleepers = (int) world.players().stream().filter(Player::isSleepingLongEnough).count();
+			int percentage = world.getServer().getGameRules().get(GameRules.PLAYERS_SLEEPING_PERCENTAGE);
+			if (deepSleepers >= Math.max(((long) world.players().size() * percentage/100), 1)) {
+				System.out.println("There are enough players sleeping");
+			}
 		}
 
 
