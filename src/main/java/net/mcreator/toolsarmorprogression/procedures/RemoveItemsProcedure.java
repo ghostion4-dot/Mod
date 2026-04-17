@@ -101,6 +101,7 @@ public class RemoveItemsProcedure {
 			int percentage = world.getServer().getGameRules().get(GameRules.PLAYERS_SLEEPING_PERCENTAGE);
 			if (deepSleepers >= Math.max(((long) world.players().size() * percentage/100), 1)) {
 				System.out.println("There are enough players sleeping");
+				Toolsarmorprogression.tickCounter = 24000*((Toolsarmorprogression.tickCounter / 24000) + 1);
 			}
 		}
 
