@@ -51,11 +51,13 @@ public class RemoveItemsProcedure {
 	private static final Item[] chainmail = new Item[]{Items.CHAINMAIL_HELMET, Items.CHAINMAIL_CHESTPLATE, Items.CHAINMAIL_LEGGINGS, Items.CHAINMAIL_BOOTS};
 	private static final Item[] diamond = new Item[]{Items.DIAMOND_PICKAXE, Items.DIAMOND_AXE, Items.DIAMOND_SWORD, Items.DIAMOND_HOE, Items.DIAMOND_SHOVEL, Items.DIAMOND_SPEAR, Items.DIAMOND_HELMET, Items.DIAMOND_CHESTPLATE, Items.DIAMOND_LEGGINGS, Items.DIAMOND_BOOTS};
 	private static final Item[] netherite = new Item[]{Items.NETHERITE_PICKAXE, Items.NETHERITE_AXE, Items.NETHERITE_SWORD, Items.NETHERITE_HOE, Items.NETHERITE_SHOVEL, Items.NETHERITE_SPEAR, Items.NETHERITE_HELMET, Items.NETHERITE_CHESTPLATE, Items.NETHERITE_LEGGINGS, Items.NETHERITE_BOOTS};
+
 	public RemoveItemsProcedure() {
 		PlayerEvents.END_PLAYER_TICK.register(entity -> {
 			execute(entity.level(), entity.getX(), entity.getY(), entity.getZ(), entity);
 		});
 	}
+
 	public static void execute(LevelAccessor world, double x, double y, double z, Entity entity) {
 
 		if (entity == null)
@@ -67,6 +69,9 @@ public class RemoveItemsProcedure {
 				Toolsarmorprogression.tickCounter = Math.toIntExact(world.getGameTime());
 			}
 		}
+		if (Toolsarmorprogression.myWorld == null) {
+			Toolsarmorprogression.myWorld = world;
+		}
 		if (!timeWood) {
 			if ((Toolsarmorprogression.tickCounter / 24000) < Toolsarmorprogression.wood) { //wood wood wood WOOD WOOD WOOD
 
@@ -77,7 +82,8 @@ public class RemoveItemsProcedure {
 				timeWood = true;
 				playSoundAndMessage("Wooden tools", world);
 			}
-		}if (!timeStone) {
+		}
+		if (!timeStone) {
 			if ((Toolsarmorprogression.tickCounter / 24000) < Toolsarmorprogression.stone) {
 
 				for (Item item : stone)
@@ -99,7 +105,8 @@ public class RemoveItemsProcedure {
 				timeGold = true;
 				playSoundAndMessage("Golden tools", world);
 			}
-		} if (!timeCopper) {
+		}
+		if (!timeCopper) {
 			if ((Toolsarmorprogression.tickCounter / 24000) < Toolsarmorprogression.copper) {
 
 				for (Item item : copper)
@@ -109,7 +116,8 @@ public class RemoveItemsProcedure {
 				timeCopper = true;
 				playSoundAndMessage("Copper tools", world);
 			}
-		}if (!timeIron) {
+		}
+		if (!timeIron) {
 			if ((Toolsarmorprogression.tickCounter / 24000) < Toolsarmorprogression.iron) {
 
 				for (Item item : iron)
@@ -119,7 +127,8 @@ public class RemoveItemsProcedure {
 				timeIron = true;
 				playSoundAndMessage("Iron tools", world);
 			}
-		}if (!timeChainmail) {
+		}
+		if (!timeChainmail) {
 			if ((Toolsarmorprogression.tickCounter / 24000) < Toolsarmorprogression.chainmail) {
 
 				for (Item item : chainmail)
@@ -129,7 +138,8 @@ public class RemoveItemsProcedure {
 				timeChainmail = true;
 				playSoundAndMessage("Chainmail armor", world);
 			}
-		}if (!timeDiamond) {
+		}
+		if (!timeDiamond) {
 			if ((Toolsarmorprogression.tickCounter / 24000) < Toolsarmorprogression.diamond) {
 
 				for (Item item : diamond)
@@ -139,7 +149,7 @@ public class RemoveItemsProcedure {
 				timeDiamond = true;
 				playSoundAndMessage("Diamond tools", world);
 			}
-		}if (!timeNetherite) {
+		} /*if (!timeNetherite) {
 			if ((Toolsarmorprogression.tickCounter / 24000) < Toolsarmorprogression.netherite) {
 
 				for (Item item : netherite)
@@ -149,7 +159,8 @@ public class RemoveItemsProcedure {
 				timeNetherite = true;
 				playSoundAndMessage("Netherite tools", world);
 			}
-		}if (!timeTrident) {
+		} uncomment this if my idea is bad */
+		if (!timeTrident) {
 			if ((Toolsarmorprogression.tickCounter / 24000) < Toolsarmorprogression.trident) {
 
 				if (hasEntityInInventory(player, new ItemStack(Items.TRIDENT)))
@@ -158,7 +169,8 @@ public class RemoveItemsProcedure {
 				timeTrident = true;
 				playSoundAndMessage("Trident", world);
 			}
-		}if (!timeElytra) {
+		}
+		if (!timeElytra) {
 			if ((Toolsarmorprogression.tickCounter / 24000) < Toolsarmorprogression.elytra) {
 
 				if (hasEntityInInventory(player, new ItemStack(Items.ELYTRA)))
@@ -167,7 +179,8 @@ public class RemoveItemsProcedure {
 				timeElytra = true;
 				playSoundAndMessage("Elytra", world);
 			}
-		}if (!timeMace) {
+		}
+		if (!timeMace) {
 			if ((Toolsarmorprogression.tickCounter / 24000) < Toolsarmorprogression.mace) {
 
 				if (hasEntityInInventory(player, new ItemStack(Items.MACE)))
@@ -178,19 +191,22 @@ public class RemoveItemsProcedure {
 				playSoundAndMessage("Mace", world);
 			}
 		}
-		 if (world.getServer() != null) {
+		if (world.getServer() != null) {
 			int deepSleepers = (int) world.players().stream().filter(Player::isSleepingLongEnough).count();
 			int percentage = world.getServer().getGameRules().get(GameRules.PLAYERS_SLEEPING_PERCENTAGE);
-			if (deepSleepers >= Math.max(((long) world.players().size() * percentage/100), 1)) {
+			if (deepSleepers >= Math.max(((long) world.players().size() * percentage / 100), 1)) {
 				System.out.println("There are enough players sleeping");
-				Toolsarmorprogression.tickCounter = 24000*((Toolsarmorprogression.tickCounter / 24000) + 1);
+				Toolsarmorprogression.tickCounter = 24000 * ((Toolsarmorprogression.tickCounter / 24000) + 1);
 			}
 		}
 
-	}private static boolean hasEntityInInventory(Player player, ItemStack itemstack) {
+	}
+
+	private static boolean hasEntityInInventory(Player player, ItemStack itemstack) {
 
 		return player.getInventory().contains(stack -> !stack.isEmpty() && ItemStack.isSameItem(stack, itemstack));
 	}
+
 	private static void playerIsNaughty(Player player, Item item, LevelAccessor world, double x, double y, double z) {
 		ItemStack itemStack = new ItemStack(item);
 		player.getInventory().clearOrCountMatchingItems(p -> itemStack.getItem() == p.getItem(), 1, player.inventoryMenu.getCraftSlots());
@@ -203,23 +219,27 @@ public class RemoveItemsProcedure {
 
 		player.hurt(new DamageSource(world.registryAccess().lookupOrThrow(Registries.DAMAGE_TYPE).getOrThrow(ResourceKey.create(Registries.DAMAGE_TYPE, Identifier.parse("minecraft:bad_respawn_point")))), 1000);
 	}
+
 	private static boolean readTickFromFile() {
 		try {
 			File myObj = new File("tickAmount.txt"); // Create File object
-			if (!myObj.createNewFile() && myObj.length()>0) {           // Try to create the file
+			if (!myObj.createNewFile() && myObj.length() > 0) {           // Try to create the file
 				Scanner reader = new Scanner(myObj);
 				while (reader.hasNextLine()) {
 					String ticks = reader.nextLine();
 					Toolsarmorprogression.tickCounter = Integer.parseInt(ticks);
 					return true;
 				}
-			} return false;
+			}
+			return false;
 		} catch (IOException e) {
 			System.out.println("An error occurred.");
 			e.printStackTrace(); // Print error details
 		}
-        return false;
-    } public static void writeTickToFile() {
+		return false;
+	}
+
+	public static void writeTickToFile() {
 		try {
 			FileWriter myWriter = new FileWriter("tickAmount.txt");
 			myWriter.write("" + Toolsarmorprogression.tickCounter);
@@ -229,14 +249,57 @@ public class RemoveItemsProcedure {
 			e.printStackTrace();
 		}
 
-	} public static void playSoundAndMessage(String tool, LevelAccessor world) {
+	}
+
+	public static void playSoundAndMessage(String tool, LevelAccessor world) {
 		for (Player player : world.players()) {
 			player.playSound(SoundEvents.UI_TOAST_CHALLENGE_COMPLETE);
 			player.sendSystemMessage(Component.literal(tool + " has been unlocked!"));
-			if (Toolsarmorprogression.myServer != null)
-			{
-			Toolsarmorprogression.myServer.getCommands().performPrefixedCommand(Toolsarmorprogression.myServer.createCommandSourceStack(), "title " + player.getPlainTextName() + " reset");
-			Toolsarmorprogression.myServer.getCommands().performPrefixedCommand(Toolsarmorprogression.myServer.createCommandSourceStack(), "title " + player.getPlainTextName() + " title " + "\"New knowledge unlocked\"");
-		}}
+			if (Toolsarmorprogression.myServer != null) {
+				Toolsarmorprogression.myServer.getCommands().performPrefixedCommand(Toolsarmorprogression.myServer.createCommandSourceStack(), "title " + player.getPlainTextName() + " reset");
+				Toolsarmorprogression.myServer.getCommands().performPrefixedCommand(Toolsarmorprogression.myServer.createCommandSourceStack(), "title " + player.getPlainTextName() + " title " + "\"New knowledge unlocked\"");
+			}
+		}
+	}
+
+	public static void doPlayersHaveNetherite(int maxNetherite, LevelAccessor world) {
+		int total;
+		if (maxNetherite < 10) {
+			for (Player player : world.players()) {
+				total = 0;
+				for (Item item : netherite) {
+					int x = player.getInventory().countItem(item);
+					total += x;
+				}
+				if (total > maxNetherite) {
+					for (Item item : netherite) {
+						int x = player.getInventory().countItem(item);
+						ItemStack itemStack = new ItemStack(item);
+						player.getInventory().clearOrCountMatchingItems(p -> itemStack.getItem() == p.getItem(), x, player.inventoryMenu.getCraftSlots());
+					}
+
+					if (world instanceof ServerLevel level) {
+						Entity entity = EntityType.LIGHTNING_BOLT.spawn(level, BlockPos.containing(player.getX(), player.getY(), player.getZ()), EntitySpawnReason.MOB_SUMMONED);
+						if (entity != null) {
+							entity.setYRot(world.getRandom().nextFloat() * 360F);
+						}
+					}
+				}
+			}
+		}
+	}
+
+	public static void dayPassed(int dayCount, LevelAccessor world) {
+		if (world != null & Toolsarmorprogression.maxNetherite < 10)
+			switch (dayCount) {
+				case Toolsarmorprogression.diamond + 30, Toolsarmorprogression.diamond + 60, Toolsarmorprogression.diamond + 90, Toolsarmorprogression.diamond + 120, Toolsarmorprogression.diamond + 150, Toolsarmorprogression.diamond + 180:
+					Toolsarmorprogression.maxNetherite++;
+					playSoundAndMessage("A new netherite tool", world);
+					break;
+				case Toolsarmorprogression.diamond+210:
+					Toolsarmorprogression.maxNetherite = 20;
+					playSoundAndMessage("All netherite", world);
+					break;
+            }
 	}
 }

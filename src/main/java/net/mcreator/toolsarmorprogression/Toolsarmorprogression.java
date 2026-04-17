@@ -4,6 +4,7 @@ import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
 import net.mcreator.toolsarmorprogression.command.manager.CommandManager;
 import net.mcreator.toolsarmorprogression.procedures.RemoveItemsProcedure;
 import net.minecraft.server.MinecraftServer;
+import net.minecraft.world.level.LevelAccessor;
 import org.jetbrains.annotations.Nullable;
 
 import org.apache.logging.log4j.Logger;
@@ -46,9 +47,11 @@ public class Toolsarmorprogression implements ModInitializer {
 	public static final int iron = 16; // In days
 	public static final int diamond = 64; // In days
 	public static final int netherite = 256; // In days
+	public static int maxNetherite = 0;
 	public static final int[] tiers = {wood, stone, copper, gold, chainmail, trident, mace, elytra, iron, diamond, netherite};
 	public static int tickCounter = 0;
 	public static boolean test = false;
+	public static LevelAccessor myWorld;
 	public static boolean tickSet = false;
 	public static MinecraftServer myServer;
 	public void onInitialize() {
@@ -76,6 +79,9 @@ public class Toolsarmorprogression implements ModInitializer {
 			myServer = server;
 			int currentTick = server.getTickCount();
 			tickCounter++;
+			if (Toolsarmorprogression.tickCounter % 24000 == 0) {
+				RemoveItemsProcedure.dayPassed(tickCounter/24000, myWorld);
+			} RemoveItemsProcedure.doPlayersHaveNetherite(maxNetherite, myWorld );
 			if (tickCounter%100 == 0) {
 				RemoveItemsProcedure.writeTickToFile();
 			}
