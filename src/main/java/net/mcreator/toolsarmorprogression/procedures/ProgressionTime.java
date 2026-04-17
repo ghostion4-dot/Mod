@@ -11,8 +11,9 @@ import static net.minecraft.util.Mth.floor;
 public class ProgressionTime {
     public static int tier_index = 0;
     public static int getTime(CommandSourceStack context) {
+        int temp = tier_index;
         int current_day = Toolsarmorprogression.tickCounter/24000; // In game days
-        String[] next_tier = {"wood", "stone", "copper", "gold", "chainmail", "trident", "mace", "elytra", "iron", "diamond", "netherite"}; // Stores the names, to return to the player
+        String[] next_tier = {"wood", "stone", "copper", "gold", "chainmail", "trident", "mace", "elytra", "iron", "diamond", "next netherite tool".repeat(6), "all netherite tools"}; // Stores the names, to return to the player
         for (int i=0; i < tiers.length; i++) {
             if (current_day < tiers[i]) {
                 tier_index = i;

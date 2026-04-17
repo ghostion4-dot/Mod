@@ -9,8 +9,10 @@ import net.mcreator.toolsarmorprogression.procedures.ProgressionTime;
 import net.mcreator.toolsarmorprogression.procedures.RemoveItemsProcedure;
 import net.mcreator.toolsarmorprogression.utils.PermissionManager;
 import net.minecraft.commands.CommandSourceStack;
+import net.minecraft.commands.SharedSuggestionProvider;
 import net.minecraft.network.chat.Component;
 
+import java.util.List;
 import java.util.Objects;
 
 public class TickIncreaseCommand extends Command {
@@ -35,10 +37,8 @@ public class TickIncreaseCommand extends Command {
                                         StringArgumentType.getString(context ,"message")
                                 ))
                         )
-        ); dispatcher.register(
-                literal("getTicks")
-                        .executes(context -> getTick(context.getSource()))
-        );dispatcher.register(
+        );
+        dispatcher.register(
                 literal("setTicks")
                         .requires(PermissionManager::isAdmin)
                         .then(argument("message", StringArgumentType.greedyString())
@@ -49,11 +49,16 @@ public class TickIncreaseCommand extends Command {
                         )
         );dispatcher.register(
                 literal("remainingTime")
-                    .executes(context -> ProgressionTime.getTime(
-                            context.getSource()
-                    )
-            )
-        ); dispatcher.register(
+                        .then(argument("print", StringArgumentType.greedyString())
+                                .suggests((context, builder) -> SharedSuggestionProvider.suggest(List.of("ticks","irl"), builder))
+                                        .executes(context -> remainingTick(
+                                                context.getSource(),
+                                                StringArgumentType.getString(context, "print")
+                                        )
+                                ))
+
+            );
+        dispatcher.register(
                 literal("tickReset")
                         .requires(PermissionManager::isAdmin)
                         .executes(context -> resetTick(context.getSource()))
@@ -86,5 +91,11 @@ public class TickIncreaseCommand extends Command {
         RemoveItemsProcedure.timeTrident = false;
         context.sendSuccess(() -> Component.literal("reset ticks"), true);
         return 1;
+    } public static int remainingTick(CommandSourceStack context, String x) {
+        if (Objects.equals(x, "ticks")) {
+            return getTick(context);
+        } else if(Objects.equals(x, "irl")) {
+           return ProgressionTime.getTime(context);
+        } return -1;
     }
 }
