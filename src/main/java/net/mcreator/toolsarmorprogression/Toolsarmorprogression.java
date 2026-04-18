@@ -2,6 +2,7 @@ package net.mcreator.toolsarmorprogression;
 
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
 import net.mcreator.toolsarmorprogression.command.manager.CommandManager;
+import net.mcreator.toolsarmorprogression.procedures.DailySoundProcedure;
 import net.mcreator.toolsarmorprogression.procedures.RemoveItemsProcedure;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.level.LevelAccessor;
@@ -49,6 +50,7 @@ public class Toolsarmorprogression implements ModInitializer {
 	public static final int netherite = 256; // In days
 	public static boolean soundPlayed = false;
 	public static int maxNetherite = 0;
+	public static boolean soundQueue = false;
 	public static final int[] tiers = {wood, stone, copper, gold, chainmail, trident, mace, elytra, iron, diamond, diamond + 30, diamond + 60, diamond + 90, diamond + 120, diamond + 150, diamond + 180, diamond + 210};
 	public static int tickCounter = 0;
 	public static boolean test = false;
@@ -83,7 +85,11 @@ public class Toolsarmorprogression implements ModInitializer {
 			if (Toolsarmorprogression.tickCounter % 24000 == 0) {
 				RemoveItemsProcedure.dayPassed(tickCounter/24000, myWorld);
 				soundPlayed = false;
-			} RemoveItemsProcedure.doPlayersHaveNetherite(maxNetherite, myWorld );
+			}
+			if (soundQueue) {
+				DailySoundProcedure.playSound();
+			}
+			RemoveItemsProcedure.doPlayersHaveNetherite(maxNetherite, myWorld );
 			if (tickCounter%100 == 0) {
 				RemoveItemsProcedure.writeTickToFile();
 			}
@@ -118,8 +124,5 @@ public class Toolsarmorprogression implements ModInitializer {
 		} else {
 			return null;
 		}
-	} public static void increaseTick(int x) {
-		tickCounter += x;
 	}
-	public static int getTick() {return tickCounter;}
 }

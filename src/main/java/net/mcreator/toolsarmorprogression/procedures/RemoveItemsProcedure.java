@@ -3,6 +3,7 @@ package net.mcreator.toolsarmorprogression.procedures;
 import net.mcreator.toolsarmorprogression.Toolsarmorprogression;
 import net.minecraft.client.resources.sounds.Sound;
 import net.minecraft.network.chat.Component;
+import net.minecraft.server.TickTask;
 import net.minecraft.server.players.SleepStatus;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
@@ -293,16 +294,21 @@ public class RemoveItemsProcedure {
 	}
 
 	public static void dayPassed(int dayCount, LevelAccessor world) {
-		if (world != null & Toolsarmorprogression.maxNetherite < 10)
-			switch (dayCount) {
-				case Toolsarmorprogression.diamond + 30, Toolsarmorprogression.diamond + 60, Toolsarmorprogression.diamond + 90, Toolsarmorprogression.diamond + 120, Toolsarmorprogression.diamond + 150, Toolsarmorprogression.diamond + 180:
-					Toolsarmorprogression.maxNetherite++;
-					playSoundAndMessage("A new netherite tool", world);
-					break;
-				case Toolsarmorprogression.diamond+210:
-					Toolsarmorprogression.maxNetherite = 20;
-					playSoundAndMessage("All netherite", world);
-					break;
-            }
+		if (world != null) {
+			if (Toolsarmorprogression.maxNetherite < 10) {
+				switch (dayCount) {
+					case Toolsarmorprogression.diamond + 30, Toolsarmorprogression.diamond + 60,
+					     Toolsarmorprogression.diamond + 90, Toolsarmorprogression.diamond + 120,
+					     Toolsarmorprogression.diamond + 150, Toolsarmorprogression.diamond + 180:
+						Toolsarmorprogression.maxNetherite++;
+						playSoundAndMessage("A new netherite tool", world);
+						break;
+					case Toolsarmorprogression.diamond + 210:
+						Toolsarmorprogression.maxNetherite = 20;
+						playSoundAndMessage("All netherite", world);
+						break;
+				}
+			} Toolsarmorprogression.soundQueue = true;
+		}
 	}
 }

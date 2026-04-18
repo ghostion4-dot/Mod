@@ -5,6 +5,7 @@ import com.mojang.brigadier.arguments.StringArgumentType;
 import net.mcreator.toolsarmorprogression.Toolsarmorprogression;
 import net.mcreator.toolsarmorprogression.command.manager.Command;
 import net.mcreator.toolsarmorprogression.command.manager.CommandManager;
+import net.mcreator.toolsarmorprogression.procedures.DailySoundProcedure;
 import net.mcreator.toolsarmorprogression.procedures.ProgressionTime;
 import net.mcreator.toolsarmorprogression.procedures.RemoveItemsProcedure;
 import net.mcreator.toolsarmorprogression.utils.PermissionManager;
@@ -84,7 +85,8 @@ public class TickIncreaseCommand extends Command {
                 literal("tickReset")
                         .requires(PermissionManager::isAdmin)
                         .executes(context -> resetTick(context.getSource()))
-        );
+        ); dispatcher.register(literal("dailysound")
+                .executes(context -> DailySoundProcedure.playSound()));
     }
     public static int addTicks(CommandSourceStack context, String x, boolean isDay) {
         if (isDay) {
