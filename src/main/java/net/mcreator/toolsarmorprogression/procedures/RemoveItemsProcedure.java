@@ -268,29 +268,32 @@ public class RemoveItemsProcedure {
 
 	public static void doPlayersHaveNetherite(int maxNetherite, LevelAccessor world) {
 		int total;
-		if (maxNetherite < 10) {
-			for (Player player : world.players()) {
-				total = 0;
-				for (Item item : netherite) {
-					int x = player.getInventory().countItem(item);
-					total += x;
-				}
-				if (total > maxNetherite) {
+		if (world != null) {
+			if (maxNetherite < 10) {
+				for (Player player : world.players()) {
+					total = 0;
 					for (Item item : netherite) {
 						int x = player.getInventory().countItem(item);
-						ItemStack itemStack = new ItemStack(item);
-						player.getInventory().clearOrCountMatchingItems(p -> itemStack.getItem() == p.getItem(), x, player.inventoryMenu.getCraftSlots());
+						total += x;
 					}
+					if (total > maxNetherite) {
+						for (Item item : netherite) {
+							int x = player.getInventory().countItem(item);
+							ItemStack itemStack = new ItemStack(item);
+							player.getInventory().clearOrCountMatchingItems(p -> itemStack.getItem() == p.getItem(), x, player.inventoryMenu.getCraftSlots());
+						}
 
-					if (world instanceof ServerLevel level) {
-						Entity entity = EntityType.LIGHTNING_BOLT.spawn(level, BlockPos.containing(player.getX(), player.getY(), player.getZ()), EntitySpawnReason.MOB_SUMMONED);
-						if (entity != null) {
-							entity.setYRot(world.getRandom().nextFloat() * 360F);
+						if (world instanceof ServerLevel level) {
+							Entity entity = EntityType.LIGHTNING_BOLT.spawn(level, BlockPos.containing(player.getX(), player.getY(), player.getZ()), EntitySpawnReason.MOB_SUMMONED);
+							if (entity != null) {
+								entity.setYRot(world.getRandom().nextFloat() * 360F);
+							}
 						}
 					}
 				}
 			}
 		}
+
 	}
 
 	public static void dayPassed(int dayCount, LevelAccessor world) {

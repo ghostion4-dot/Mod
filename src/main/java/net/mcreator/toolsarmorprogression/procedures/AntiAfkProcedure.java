@@ -21,7 +21,6 @@ public class AntiAfkProcedure {
                 } else { // or don't
                     oldAngles.set(x, currentPlayerLookAngle); // If player has moved, update look angle
                 }
-                break;
             }
             else {
                 PlayersNames.add(player.getPlainTextName());
