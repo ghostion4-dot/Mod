@@ -39,7 +39,6 @@ public class ProgressionTime {
             minute_suffix = "";
         }
         String player = Objects.requireNonNull(context.getPlayer()).getPlainTextName();
-        Player playa = Objects.requireNonNull(context.getPlayer());
         String big_message = remaining_days + " day" + day_suffix + " left till " + next_tier_name; // Output days and minutes left
         String small_message = remaining_hours + " hour" + hour_suffix + " & " + remaining_minutes + " minute" + minute_suffix +" left";
         //String mixed_message = remaining_days + " day" + day_suffix + " left till " + next_tier_name + " (" + remaining_hours + " hour" + hour_suffix + " & " + remaining_minutes + " minute" + minute_suffix + ")";
