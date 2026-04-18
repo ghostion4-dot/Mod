@@ -2,9 +2,9 @@ package net.mcreator.toolsarmorprogression.procedures;
 
 import net.mcreator.toolsarmorprogression.Toolsarmorprogression;
 import net.minecraft.commands.CommandSourceStack;
-
+import net.minecraft.sounds.SoundEvents;
 import java.util.Objects;
-
+import net.minecraft.world.entity.player.Player;
 import static net.mcreator.toolsarmorprogression.Toolsarmorprogression.tiers;
 import static net.minecraft.util.Mth.floor;
 
@@ -39,13 +39,13 @@ public class ProgressionTime {
             minute_suffix = "";
         }
         String player = Objects.requireNonNull(context.getPlayer()).getPlainTextName();
+        Player playa = Objects.requireNonNull(context.getPlayer());
         String big_message = remaining_days + " day" + day_suffix + " left till " + next_tier_name; // Output days and minutes left
         String small_message = remaining_hours + " hour" + hour_suffix + " & " + remaining_minutes + " minute" + minute_suffix +" left";
-        String mixed_message = remaining_days + " day" + day_suffix + " left till " + next_tier_name + " (" + remaining_hours + " hour" + hour_suffix + " & " + remaining_minutes + " minute" + minute_suffix + ")";
-        context.getServer().getCommands().performPrefixedCommand(context.getServer().createCommandSourceStack(), "title " + player + " reset");
+        //String mixed_message = remaining_days + " day" + day_suffix + " left till " + next_tier_name + " (" + remaining_hours + " hour" + hour_suffix + " & " + remaining_minutes + " minute" + minute_suffix + ")";
         context.getServer().getCommands().performPrefixedCommand(context.getServer().createCommandSourceStack(), "title " + player + " title " + "\""+ big_message + "\"");
         context.getServer().getCommands().performPrefixedCommand(context.getServer().createCommandSourceStack(), "title " + player + " subtitle " + "\""+ small_message + "\"");
-
+        context.getServer().getCommands().performPrefixedCommand(context.getServer().createCommandSourceStack(), "playsound minecraft:block.amethyst_block.chime player " + player + " ~ ~ ~ 1500");
         return 1;
     }
 }
