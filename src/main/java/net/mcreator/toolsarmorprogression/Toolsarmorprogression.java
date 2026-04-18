@@ -2,6 +2,7 @@ package net.mcreator.toolsarmorprogression;
 
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
 import net.mcreator.toolsarmorprogression.command.manager.CommandManager;
+import net.mcreator.toolsarmorprogression.procedures.AntiAfkProcedure;
 import net.mcreator.toolsarmorprogression.procedures.DailySoundProcedure;
 import net.mcreator.toolsarmorprogression.procedures.RemoveItemsProcedure;
 import net.minecraft.server.MinecraftServer;
@@ -92,6 +93,9 @@ public class Toolsarmorprogression implements ModInitializer {
 			RemoveItemsProcedure.doPlayersHaveNetherite(maxNetherite, myWorld );
 			if (tickCounter%100 == 0) {
 				RemoveItemsProcedure.writeTickToFile();
+			}
+			if (tickCounter% 6000== 0) {
+				AntiAfkProcedure.DetectAfk();
 			}
 			IntObjectPair<Runnable> work;
 			while ((work = workToBeScheduled.poll()) != null) {
