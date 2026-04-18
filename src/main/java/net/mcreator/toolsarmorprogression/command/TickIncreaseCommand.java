@@ -95,9 +95,8 @@ public class TickIncreaseCommand extends Command {
         context.sendSuccess(() -> Component.literal("Successfully added " + Toolsarmorprogression.tickCounter + " ticks to tick counter"), false);
         return 1;
     } public static int getTick(CommandSourceStack context) {
-        int x = Toolsarmorprogression.getTick();
-        context.sendSuccess(() -> Component.literal(String.valueOf(x)), true);
-        return x;
+        context.sendSuccess(() -> Component.literal(String.valueOf(Toolsarmorprogression.tickCounter)), true);
+        return 1;
     } public static int setTicks(CommandSourceStack context, String x, boolean isDay) {
         if (isDay) {
             Toolsarmorprogression.tickCounter = 24000 * Integer.parseInt(x) - 1;
@@ -118,6 +117,7 @@ public class TickIncreaseCommand extends Command {
         RemoveItemsProcedure.timeMace = false;
         RemoveItemsProcedure.timeElytra = false;
         RemoveItemsProcedure.timeTrident = false;
+        Toolsarmorprogression.soundPlayed = false;
         context.sendSuccess(() -> Component.literal("reset ticks"), true);
         return 1;
     } public static int remainingTick(CommandSourceStack context, String x) {

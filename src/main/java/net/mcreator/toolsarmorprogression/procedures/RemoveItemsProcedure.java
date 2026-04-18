@@ -253,7 +253,10 @@ public class RemoveItemsProcedure {
 
 	public static void playSoundAndMessage(String tool, LevelAccessor world) {
 		for (Player player : world.players()) {
-			player.playSound(SoundEvents.UI_TOAST_CHALLENGE_COMPLETE);
+			if (!Toolsarmorprogression.soundPlayed) {
+				player.playSound(SoundEvents.UI_TOAST_CHALLENGE_COMPLETE);
+				Toolsarmorprogression.soundPlayed = true;
+			}
 			player.sendSystemMessage(Component.literal(tool + " has been unlocked!"));
 			if (Toolsarmorprogression.myServer != null) {
 				Toolsarmorprogression.myServer.getCommands().performPrefixedCommand(Toolsarmorprogression.myServer.createCommandSourceStack(), "title " + player.getPlainTextName() + " reset");
