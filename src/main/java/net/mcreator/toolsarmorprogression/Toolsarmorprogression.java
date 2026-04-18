@@ -43,8 +43,8 @@ public class Toolsarmorprogression implements ModInitializer {
 	public static final int copper = 4;// In days
 	public static final int gold = 8;// In days
 	public static final int chainmail = 8;// In days
-	public static final int trident = 16;// In days
-	public static final int mace = 32;// In days
+	public static final int trident = 64;// In days
+	public static final int mace = 0;// In days
 	public static final int elytra = 0;// In days
 	public static final int iron = 16; // In days
 	public static final int diamond = 64; // In days
