@@ -293,7 +293,7 @@ public class RemoveItemsProcedure {
 			player.sendSystemMessage(Component.literal(tool + " has been unlocked!"));
 			if (Toolsarmorprogression.myServer != null) {
 				Toolsarmorprogression.myServer.getCommands().performPrefixedCommand(Toolsarmorprogression.myServer.createCommandSourceStack(), "title " + player.getPlainTextName() + " reset");
-				Toolsarmorprogression.myServer.getCommands().performPrefixedCommand(Toolsarmorprogression.myServer.createCommandSourceStack(), "title " + player.getPlainTextName() + " title " + "\"New knowledge unlocked\"");
+				Toolsarmorprogression.myServer.getCommands().performPrefixedCommand(Toolsarmorprogression.myServer.createCommandSourceStack(), "title " + player.getPlainTextName() + " title " + "\"New tools unlocked\"");
 			}
 		}
 	}
