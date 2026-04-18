@@ -29,25 +29,47 @@ public class TickIncreaseCommand extends Command {
     @Override
     public void register(CommandDispatcher<CommandSourceStack> dispatcher) {
         dispatcher.register(
-                literal("addTicks")
-                        .requires(PermissionManager::isAdmin)
-                        .then(argument("message", StringArgumentType.greedyString())
-                                .executes(context -> addTicks(
-                                        context.getSource(),
-                                        StringArgumentType.getString(context ,"message")
-                                ))
-                        )
-        );
+                literal("modtick")
+                        .then(literal("set")
+                            .requires(PermissionManager::isAdmin)
+                            .then(literal("days")
+                                .then(argument("amount", StringArgumentType.greedyString())
+                                        .executes(context -> setTicks(
+                                                context.getSource(),
+                                                StringArgumentType.getString(context ,"amount"),
+                                                true
+                                        ))
+                                )
+
+                        ) .then(literal("ticks")
+                                .then(argument("amount", StringArgumentType.greedyString())
+                                        .executes(context -> setTicks(
+                                                context.getSource(),
+                                                StringArgumentType.getString(context, "amount"),
+                                                false
+                                        ))
+                                )))
+                        .then(literal("add")
+                                .requires(PermissionManager::isAdmin)
+                                .then(literal("days")
+                                        .then(argument("amount", StringArgumentType.greedyString())
+                                                .executes(context -> addTicks(
+                                                        context.getSource(),
+                                                        StringArgumentType.getString(context ,"amount"),
+                                                        true
+                                                ))
+                                        )
+
+                                ) .then(literal("ticks")
+                                        .then(argument("amount", StringArgumentType.greedyString())
+                                                .executes(context -> addTicks(
+                                                        context.getSource(),
+                                                        StringArgumentType.getString(context, "amount"),
+                                                        false
+                                                ))
+                                        )))
+                        );
         dispatcher.register(
-                literal("setTicks")
-                        .requires(PermissionManager::isAdmin)
-                        .then(argument("message", StringArgumentType.greedyString())
-                                .executes(context -> setTicks(
-                                        context.getSource(),
-                                        StringArgumentType.getString(context ,"message")
-                                ))
-                        )
-        );dispatcher.register(
                 literal("remainingTime")
                         .then(argument("print", StringArgumentType.greedyString())
                                 .suggests((context, builder) -> SharedSuggestionProvider.suggest(List.of("ticks","irl"), builder))
@@ -64,18 +86,25 @@ public class TickIncreaseCommand extends Command {
                         .executes(context -> resetTick(context.getSource()))
         );
     }
-    public static int addTicks(CommandSourceStack context, String x) {
-        Toolsarmorprogression.LOGGER.debug(x);
-        Toolsarmorprogression.increaseTick(Integer.parseInt(x));
-        context.sendSuccess(() -> Component.nullToEmpty("Successfully added " + x + " ticks"), true);
+    public static int addTicks(CommandSourceStack context, String x, boolean isDay) {
+        if (isDay) {
+            Toolsarmorprogression.tickCounter += 24000 * Integer.parseInt(x) - 1;
+        } else {
+            Toolsarmorprogression.tickCounter += Integer.parseInt(x);
+        }
+        context.sendSuccess(() -> Component.literal("Successfully added " + Toolsarmorprogression.tickCounter + " ticks to tick counter"), false);
         return 1;
     } public static int getTick(CommandSourceStack context) {
         int x = Toolsarmorprogression.getTick();
         context.sendSuccess(() -> Component.literal(String.valueOf(x)), true);
         return x;
-    } public static int setTicks(CommandSourceStack context, String x) {
-        Toolsarmorprogression.tickCounter = Integer.parseInt(x);
-        context.sendSuccess(() -> Component.nullToEmpty("Successfully set ticks to " + x), true);
+    } public static int setTicks(CommandSourceStack context, String x, boolean isDay) {
+        if (isDay) {
+            Toolsarmorprogression.tickCounter = 24000 * Integer.parseInt(x) - 1;
+        } else {
+            Toolsarmorprogression.tickCounter = Integer.parseInt(x);
+        }
+        context.sendSuccess(() -> Component.literal("Successfully set ticks to " + Toolsarmorprogression.tickCounter), false);
         return 1;
     } public static int resetTick(CommandSourceStack context) {
         RemoveItemsProcedure.timeWood = false;
