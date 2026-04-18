@@ -13,35 +13,89 @@ public class DailySoundProcedure {
     public static int playSound() {
         if (Toolsarmorprogression.tickCounter % 4 == 0) {
             switch ((Toolsarmorprogression.tickCounter/ 24000) % 4) {
-                case 0:
+                case 0: //day 4
                     for (Player player : Toolsarmorprogression.myWorld.players()) {
-                        Toolsarmorprogression.myServer.getCommands().performPrefixedCommand(Toolsarmorprogression.myServer.createCommandSourceStack(), "playsound minecraft:block.note_block.chime master @a " + player.getX() + " " + player.getY() + " " + player.getZ() + "1 0.8");
-                        Toolsarmorprogression.soundQueue = false;
-                        playedOnce = playedTwice = playedThrice = false;
+                        if (playedOnce) {
+                            if (playedTwice) {
+                                if (playedThrice) {
+                                    Toolsarmorprogression.myServer.getCommands().performPrefixedCommand(Toolsarmorprogression.myServer.createCommandSourceStack(), "playsound minecraft:block.note_block.chime master " + player.getPlainTextName() + " " + player.getX() + " " + player.getY() + " " + player.getZ() + " 1 1.8");
+                                    playedOnce = playedTwice = playedThrice = false;
+                                    Toolsarmorprogression.soundQueue = false;
+                                } else {
+                                    Toolsarmorprogression.myServer.getCommands().performPrefixedCommand(Toolsarmorprogression.myServer.createCommandSourceStack(), "playsound minecraft:block.note_block.chime master " + player.getPlainTextName() + " " + player.getX() + " " + player.getY() + " " + player.getZ() + " 1 1.6");
+                                    playedThrice = true;
+                                }
+                            } else {
+                                Toolsarmorprogression.myServer.getCommands().performPrefixedCommand(Toolsarmorprogression.myServer.createCommandSourceStack(), "playsound minecraft:block.note_block.chime master " + player.getPlainTextName() + " " + player.getX() + " " + player.getY() + " " + player.getZ() + " 1 1.4");
+                                playedTwice = true;
+                            }
+                        } else {
+                            Toolsarmorprogression.myServer.getCommands().performPrefixedCommand(Toolsarmorprogression.myServer.createCommandSourceStack(), "playsound minecraft:block.note_block.chime master " + player.getPlainTextName() + " " + player.getX() + " " + player.getY() + " " + player.getZ() + " 1 1.2");
+                            playedOnce = true;
+                        }
                     } break;
-                case 1:
+                case 1: //day 1
                     for (Player player : Toolsarmorprogression.myWorld.players()) {
-                        Toolsarmorprogression.myServer.getCommands().performPrefixedCommand(Toolsarmorprogression.myServer.createCommandSourceStack(), "playsound minecraft:block.note_block.chime master @a " + player.getX() + " " + player.getY() + " " + player.getZ() + "1 0.8");
-                        Toolsarmorprogression.myServer.getCommands().performPrefixedCommand(Toolsarmorprogression.myServer.createCommandSourceStack(), "playsound minecraft:block.note_block.chime master @a " + player.getX() + " " + player.getY() + " " + player.getZ() + "1 1");
-                        System.out.println("playing everywhere");
-                        Toolsarmorprogression.soundQueue = false;
+                        if (playedOnce) {
+                            if (playedTwice) {
+                                if (playedThrice) {
+                                    Toolsarmorprogression.myServer.getCommands().performPrefixedCommand(Toolsarmorprogression.myServer.createCommandSourceStack(), "playsound minecraft:block.note_block.chime master " + player.getPlainTextName() + " " + player.getX() + " " + player.getY() + " " + player.getZ() + " 1 1.2");
+                                    playedOnce = playedTwice = playedThrice = false;
+                                    Toolsarmorprogression.soundQueue = false;
+                                } else {
+                                    Toolsarmorprogression.myServer.getCommands().performPrefixedCommand(Toolsarmorprogression.myServer.createCommandSourceStack(), "playsound minecraft:block.note_block.chime master " + player.getPlainTextName() + " " + player.getX() + " " + player.getY() + " " + player.getZ() + " 1 1");
+                                    playedThrice = true;
+                                }
+                            } else {
+                                Toolsarmorprogression.myServer.getCommands().performPrefixedCommand(Toolsarmorprogression.myServer.createCommandSourceStack(), "playsound minecraft:block.note_block.chime master " + player.getPlainTextName() + " " + player.getX() + " " + player.getY() + " " + player.getZ() + " 1 0.8");
+                                playedTwice = true;
+                            }
+                        } else {
+                            Toolsarmorprogression.myServer.getCommands().performPrefixedCommand(Toolsarmorprogression.myServer.createCommandSourceStack(), "playsound minecraft:block.note_block.chime master " + player.getPlainTextName() + " " + player.getX() + " " + player.getY() + " " + player.getZ() + " 1 0.6");
+                            playedOnce = true;
+                        }
                     } break;
-                case 2:
+                case 2: //day 2
                     for (Player player : Toolsarmorprogression.myWorld.players()) {
-                        Toolsarmorprogression.myServer.getCommands().performPrefixedCommand(Toolsarmorprogression.myServer.createCommandSourceStack(), "playsound minecraft:block.note_block.chime master @a " + player.getX() + " " + player.getY() + " " + player.getZ() + "1 0.8");
-                        Toolsarmorprogression.myServer.getCommands().performPrefixedCommand(Toolsarmorprogression.myServer.createCommandSourceStack(), "playsound minecraft:block.note_block.chime master @a " + player.getX() + " " + player.getY() + " " + player.getZ() + "1 0.8");
-                        player.playSound(SoundEvents.NOTE_BLOCK_CHIME.value(), 1.0f, 1.2f);
-                        System.out.println("playing there");
-                        Toolsarmorprogression.soundQueue = false;
+                        if (playedOnce) {
+                            if (playedTwice) {
+                                if (playedThrice) {
+                                    Toolsarmorprogression.myServer.getCommands().performPrefixedCommand(Toolsarmorprogression.myServer.createCommandSourceStack(), "playsound minecraft:block.note_block.chime master " + player.getPlainTextName() + " " + player.getX() + " " + player.getY() + " " + player.getZ() + " 1 1.4");
+                                    playedOnce = playedTwice = playedThrice = false;
+                                    Toolsarmorprogression.soundQueue = false;
+                                } else {
+                                    Toolsarmorprogression.myServer.getCommands().performPrefixedCommand(Toolsarmorprogression.myServer.createCommandSourceStack(), "playsound minecraft:block.note_block.chime master " + player.getPlainTextName() + " " + player.getX() + " " + player.getY() + " " + player.getZ() + " 1 1.2");
+                                    playedThrice = true;
+                                }
+                            } else {
+                                Toolsarmorprogression.myServer.getCommands().performPrefixedCommand(Toolsarmorprogression.myServer.createCommandSourceStack(), "playsound minecraft:block.note_block.chime master " + player.getPlainTextName() + " " + player.getX() + " " + player.getY() + " " + player.getZ() + " 1 1");
+                                playedTwice = true;
+                            }
+                        } else {
+                            Toolsarmorprogression.myServer.getCommands().performPrefixedCommand(Toolsarmorprogression.myServer.createCommandSourceStack(), "playsound minecraft:block.note_block.chime master " + player.getPlainTextName() + " " + player.getX() + " " + player.getY() + " " + player.getZ() + " 1 0.8");
+                            playedOnce = true;
+                        }
                     } break;
-                default:
+                default: //day 3
                     for (Player player : Toolsarmorprogression.myWorld.players()) {
-                        player.playSound(SoundEvents.NOTE_BLOCK_CHIME.value(), 1.0f, 0.8f);
-                        player.playSound(SoundEvents.NOTE_BLOCK_CHIME.value(), 1.0f, 1.0f);
-                        player.playSound(SoundEvents.NOTE_BLOCK_CHIME.value(), 1.0f, 1.2f);
-                        player.playSound(SoundEvents.NOTE_BLOCK_CHIME.value(), 1.0f, 1.4f);
-                        System.out.println("playing here");
-                        Toolsarmorprogression.soundQueue = false;
+                        if (playedOnce) {
+                            if (playedTwice) {
+                                if (playedThrice) {
+                                    Toolsarmorprogression.myServer.getCommands().performPrefixedCommand(Toolsarmorprogression.myServer.createCommandSourceStack(), "playsound minecraft:block.note_block.chime master " + player.getPlainTextName() + " " + player.getX() + " " + player.getY() + " " + player.getZ() + " 1 1.6");
+                                    playedOnce = playedTwice = playedThrice = false;
+                                    Toolsarmorprogression.soundQueue = false;
+                                } else {
+                                    Toolsarmorprogression.myServer.getCommands().performPrefixedCommand(Toolsarmorprogression.myServer.createCommandSourceStack(), "playsound minecraft:block.note_block.chime master " + player.getPlainTextName() + " " + player.getX() + " " + player.getY() + " " + player.getZ() + " 1 1.4");
+                                    playedThrice = true;
+                                }
+                            } else {
+                                Toolsarmorprogression.myServer.getCommands().performPrefixedCommand(Toolsarmorprogression.myServer.createCommandSourceStack(), "playsound minecraft:block.note_block.chime master " + player.getPlainTextName() + " " + player.getX() + " " + player.getY() + " " + player.getZ() + " 1 1.2");
+                                playedTwice = true;
+                            }
+                        } else {
+                            Toolsarmorprogression.myServer.getCommands().performPrefixedCommand(Toolsarmorprogression.myServer.createCommandSourceStack(), "playsound minecraft:block.note_block.chime master " + player.getPlainTextName() + " " + player.getX() + " " + player.getY() + " " + player.getZ() + " 1 1");
+                            playedOnce = true;
+                        }
                     } break;
             }
         } return 1;
