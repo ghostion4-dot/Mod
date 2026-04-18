@@ -1,9 +1,6 @@
 package net.mcreator.toolsarmorprogression.procedures;
 
 import net.mcreator.toolsarmorprogression.Toolsarmorprogression;
-import net.minecraft.network.chat.Component;
-import net.minecraft.sounds.SoundEvent;
-import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.entity.player.Player;
 
 import java.util.ArrayList;
@@ -29,18 +26,22 @@ public class DailySoundProcedure {
                             if (playedTwice.get(x)) {
                                 if (playedThrice.get(x)) {
                                     Toolsarmorprogression.myServer.getCommands().performPrefixedCommand(Toolsarmorprogression.myServer.createCommandSourceStack(), "playsound minecraft:block.note_block.chime master " + player.getPlainTextName() + " " + player.getX() + " " + player.getY() + " " + player.getZ() + " 1 1.8");
+                                    Toolsarmorprogression.myServer.getCommands().performPrefixedCommand(Toolsarmorprogression.myServer.createCommandSourceStack(), "title " + player.getPlainTextName() + " actionbar \"Day " + Toolsarmorprogression.tickCounter/24000 + "\"");
                                     playedOnce.set(x, Boolean.FALSE); playedTwice.set(x, Boolean.FALSE); playedThrice.set(x, Boolean.FALSE);
                                     Toolsarmorprogression.soundQueue = false;
                                 } else {
                                     Toolsarmorprogression.myServer.getCommands().performPrefixedCommand(Toolsarmorprogression.myServer.createCommandSourceStack(), "playsound minecraft:block.note_block.chime master " + player.getPlainTextName() + " " + player.getX() + " " + player.getY() + " " + player.getZ() + " 1 1.6");
+                                    Toolsarmorprogression.myServer.getCommands().performPrefixedCommand(Toolsarmorprogression.myServer.createCommandSourceStack(), "title " + player.getPlainTextName() + " actionbar Day");
                                     playedThrice.set(x, Boolean.TRUE);
                                 }
                             } else {
                                 Toolsarmorprogression.myServer.getCommands().performPrefixedCommand(Toolsarmorprogression.myServer.createCommandSourceStack(), "playsound minecraft:block.note_block.chime master " + player.getPlainTextName() + " " + player.getX() + " " + player.getY() + " " + player.getZ() + " 1 1.4");
+                                Toolsarmorprogression.myServer.getCommands().performPrefixedCommand(Toolsarmorprogression.myServer.createCommandSourceStack(), "title " + player.getPlainTextName() + " actionbar Da");
                                 playedTwice.set(x, Boolean.TRUE);
                             }
                         } else {
                             Toolsarmorprogression.myServer.getCommands().performPrefixedCommand(Toolsarmorprogression.myServer.createCommandSourceStack(), "playsound minecraft:block.note_block.chime master " + player.getPlainTextName() + " " + player.getX() + " " + player.getY() + " " + player.getZ() + " 1 1.2");
+                            Toolsarmorprogression.myServer.getCommands().performPrefixedCommand(Toolsarmorprogression.myServer.createCommandSourceStack(), "title " + player.getPlainTextName() + " actionbar D");
                             playedOnce.set(x, Boolean.TRUE);
                         }
                 break;
@@ -50,16 +51,20 @@ public class DailySoundProcedure {
                                 if (playedThrice.get(x)) {
                                     Toolsarmorprogression.myServer.getCommands().performPrefixedCommand(Toolsarmorprogression.myServer.createCommandSourceStack(), "playsound minecraft:block.note_block.chime master " + player.getPlainTextName() + " " + player.getX() + " " + player.getY() + " " + player.getZ() + " 1 1.2");
                                     playedOnce.set(x, Boolean.FALSE); playedTwice.set(x, Boolean.FALSE); playedThrice.set(x, Boolean.FALSE);
+                                    Toolsarmorprogression.myServer.getCommands().performPrefixedCommand(Toolsarmorprogression.myServer.createCommandSourceStack(), "title " + player.getPlainTextName() + " actionbar \"Day " + Toolsarmorprogression.tickCounter/24000 + "\"");
                                     Toolsarmorprogression.soundQueue = false;
                                 } else {
+                                    Toolsarmorprogression.myServer.getCommands().performPrefixedCommand(Toolsarmorprogression.myServer.createCommandSourceStack(), "title " + player.getPlainTextName() + " actionbar Day");
                                     Toolsarmorprogression.myServer.getCommands().performPrefixedCommand(Toolsarmorprogression.myServer.createCommandSourceStack(), "playsound minecraft:block.note_block.chime master " + player.getPlainTextName() + " " + player.getX() + " " + player.getY() + " " + player.getZ() + " 1 1");
                                     playedThrice.set(x, Boolean.TRUE);
                                 }
                             } else {
+                                Toolsarmorprogression.myServer.getCommands().performPrefixedCommand(Toolsarmorprogression.myServer.createCommandSourceStack(), "title " + player.getPlainTextName() + " actionbar Da");
                                 Toolsarmorprogression.myServer.getCommands().performPrefixedCommand(Toolsarmorprogression.myServer.createCommandSourceStack(), "playsound minecraft:block.note_block.chime master " + player.getPlainTextName() + " " + player.getX() + " " + player.getY() + " " + player.getZ() + " 1 0.8");
                                 playedTwice.set(x, Boolean.TRUE);
                             }
                         } else {
+                            Toolsarmorprogression.myServer.getCommands().performPrefixedCommand(Toolsarmorprogression.myServer.createCommandSourceStack(), "title " + player.getPlainTextName() + " actionbar D");
                             Toolsarmorprogression.myServer.getCommands().performPrefixedCommand(Toolsarmorprogression.myServer.createCommandSourceStack(), "playsound minecraft:block.note_block.chime master " + player.getPlainTextName() + " " + player.getX() + " " + player.getY() + " " + player.getZ() + " 1 0.6");
                             playedOnce.set(x, Boolean.TRUE);
                         }
@@ -70,17 +75,21 @@ public class DailySoundProcedure {
                             if (playedTwice.get(x)) {
                                 if (playedThrice.get(x)) {
                                     Toolsarmorprogression.myServer.getCommands().performPrefixedCommand(Toolsarmorprogression.myServer.createCommandSourceStack(), "playsound minecraft:block.note_block.chime master " + player.getPlainTextName() + " " + player.getX() + " " + player.getY() + " " + player.getZ() + " 1 1.4");
+                                    Toolsarmorprogression.myServer.getCommands().performPrefixedCommand(Toolsarmorprogression.myServer.createCommandSourceStack(), "title " + player.getPlainTextName() + " actionbar \"Day " + Toolsarmorprogression.tickCounter/24000 + "\"");
                                     playedOnce.set(x, Boolean.FALSE); playedTwice.set(x, Boolean.FALSE); playedThrice.set(x, Boolean.FALSE);
                                     Toolsarmorprogression.soundQueue = false;
                                 } else {
+                                    Toolsarmorprogression.myServer.getCommands().performPrefixedCommand(Toolsarmorprogression.myServer.createCommandSourceStack(), "title " + player.getPlainTextName() + " actionbar Day");
                                     Toolsarmorprogression.myServer.getCommands().performPrefixedCommand(Toolsarmorprogression.myServer.createCommandSourceStack(), "playsound minecraft:block.note_block.chime master " + player.getPlainTextName() + " " + player.getX() + " " + player.getY() + " " + player.getZ() + " 1 1.2");
                                     playedThrice.set(x, Boolean.TRUE);
                                 }
                             } else {
+                                Toolsarmorprogression.myServer.getCommands().performPrefixedCommand(Toolsarmorprogression.myServer.createCommandSourceStack(), "title " + player.getPlainTextName() + " actionbar Da");
                                 Toolsarmorprogression.myServer.getCommands().performPrefixedCommand(Toolsarmorprogression.myServer.createCommandSourceStack(), "playsound minecraft:block.note_block.chime master " + player.getPlainTextName() + " " + player.getX() + " " + player.getY() + " " + player.getZ() + " 1 1");
                                 playedTwice.set(x, Boolean.TRUE);
                             }
                         } else {
+                            Toolsarmorprogression.myServer.getCommands().performPrefixedCommand(Toolsarmorprogression.myServer.createCommandSourceStack(), "title " + player.getPlainTextName() + " actionbar D");
                             Toolsarmorprogression.myServer.getCommands().performPrefixedCommand(Toolsarmorprogression.myServer.createCommandSourceStack(), "playsound minecraft:block.note_block.chime master " + player.getPlainTextName() + " " + player.getX() + " " + player.getY() + " " + player.getZ() + " 1 0.8");
                             playedOnce.set(x, Boolean.TRUE);
                         }
@@ -90,17 +99,21 @@ public class DailySoundProcedure {
                             if (playedTwice.get(x)) {
                                 if (playedThrice.get(x)) {
                                     Toolsarmorprogression.myServer.getCommands().performPrefixedCommand(Toolsarmorprogression.myServer.createCommandSourceStack(), "playsound minecraft:block.note_block.chime master " + player.getPlainTextName() + " " + player.getX() + " " + player.getY() + " " + player.getZ() + " 1 1.6");
+                                    Toolsarmorprogression.myServer.getCommands().performPrefixedCommand(Toolsarmorprogression.myServer.createCommandSourceStack(), "title " + player.getPlainTextName() + " actionbar \"Day " + Toolsarmorprogression.tickCounter/24000 + "\"");
                                     playedOnce.set(x, Boolean.FALSE); playedTwice.set(x, Boolean.FALSE); playedThrice.set(x, Boolean.FALSE);
                                     Toolsarmorprogression.soundQueue = false;
                                 } else {
+                                    Toolsarmorprogression.myServer.getCommands().performPrefixedCommand(Toolsarmorprogression.myServer.createCommandSourceStack(), "title " + player.getPlainTextName() + " actionbar Day");
                                     Toolsarmorprogression.myServer.getCommands().performPrefixedCommand(Toolsarmorprogression.myServer.createCommandSourceStack(), "playsound minecraft:block.note_block.chime master " + player.getPlainTextName() + " " + player.getX() + " " + player.getY() + " " + player.getZ() + " 1 1.4");
                                     playedThrice.set(x, Boolean.TRUE);
                                 }
                             } else {
+                                Toolsarmorprogression.myServer.getCommands().performPrefixedCommand(Toolsarmorprogression.myServer.createCommandSourceStack(), "title " + player.getPlainTextName() + " actionbar Da");
                                 Toolsarmorprogression.myServer.getCommands().performPrefixedCommand(Toolsarmorprogression.myServer.createCommandSourceStack(), "playsound minecraft:block.note_block.chime master " + player.getPlainTextName() + " " + player.getX() + " " + player.getY() + " " + player.getZ() + " 1 1.2");
                                 playedTwice.set(x, Boolean.TRUE);
                             }
                         } else {
+                            Toolsarmorprogression.myServer.getCommands().performPrefixedCommand(Toolsarmorprogression.myServer.createCommandSourceStack(), "title " + player.getPlainTextName() + " actionbar D");
                             Toolsarmorprogression.myServer.getCommands().performPrefixedCommand(Toolsarmorprogression.myServer.createCommandSourceStack(), "playsound minecraft:block.note_block.chime master " + player.getPlainTextName() + " " + player.getX() + " " + player.getY() + " " + player.getZ() + " 1 1");
                             playedOnce.set(x, Boolean.TRUE);
                         }

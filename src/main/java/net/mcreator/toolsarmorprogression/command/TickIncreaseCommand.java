@@ -4,7 +4,6 @@ import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.arguments.StringArgumentType;
 import net.mcreator.toolsarmorprogression.Toolsarmorprogression;
 import net.mcreator.toolsarmorprogression.command.manager.Command;
-import net.mcreator.toolsarmorprogression.command.manager.CommandManager;
 import net.mcreator.toolsarmorprogression.procedures.DailySoundProcedure;
 import net.mcreator.toolsarmorprogression.procedures.ProgressionTime;
 import net.mcreator.toolsarmorprogression.procedures.RemoveItemsProcedure;
@@ -119,6 +118,9 @@ public class TickIncreaseCommand extends Command {
         RemoveItemsProcedure.timeMace = false;
         RemoveItemsProcedure.timeElytra = false;
         RemoveItemsProcedure.timeTrident = false;
+        RemoveItemsProcedure.timeEndCrystal = false;
+        RemoveItemsProcedure.timeEnchantingTable = false;
+        RemoveItemsProcedure.timeAnvil = false;
         Toolsarmorprogression.soundPlayed = false;
         context.sendSuccess(() -> Component.literal("reset ticks"), true);
         return 1;

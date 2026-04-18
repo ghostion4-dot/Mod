@@ -21,8 +21,6 @@ import net.fabricmc.loader.api.FabricLoader;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.api.EnvType;
-
-import java.io.File;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.Queue;
 import java.util.PriorityQueue;
@@ -47,7 +45,10 @@ public class Toolsarmorprogression implements ModInitializer {
 	public static final int mace = 0;// In days
 	public static final int elytra = 0;// In days
 	public static final int iron = 32; // In days
+	public static final int anvil = 256;
 	public static final int diamond = 256; // In days
+	public static final int enchantingTable = 256;
+	public static final int endCrystal = 256;
 	public static final int netherite = 256; // In days
 	public static boolean soundPlayed = false;
 	public static int maxNetherite = 0;

@@ -1,11 +1,7 @@
 package net.mcreator.toolsarmorprogression.procedures;
 
 import net.mcreator.toolsarmorprogression.Toolsarmorprogression;
-import net.minecraft.client.resources.sounds.Sound;
 import net.minecraft.network.chat.Component;
-import net.minecraft.server.TickTask;
-import net.minecraft.server.players.SleepStatus;
-import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.LevelAccessor;
@@ -24,15 +20,12 @@ import net.minecraft.core.BlockPos;
 import net.mcreator.toolsarmorprogression.event.PlayerEvents;
 import net.minecraft.world.level.gamerules.GameRules;
 
-import javax.tools.Tool;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.Objects;
 import java.util.Scanner;
 
 public class RemoveItemsProcedure {
-	public static boolean eventResult = true;
 	public static boolean timeWood = false;
 	public static boolean timeStone = false;
 	public static boolean timeCopper = false;
@@ -44,14 +37,18 @@ public class RemoveItemsProcedure {
 	public static boolean timeMace = false;
 	public static boolean timeElytra = false;
 	public static boolean timeTrident = false;
+	public static boolean timeAnvil = false;
+	public static boolean timeEnchantingTable = false;
+	public static boolean timeEndCrystal = false;
 	private static final Item[] stone = new Item[]{Items.STONE_PICKAXE, Items.STONE_AXE, Items.STONE_SWORD, Items.STONE_HOE, Items.STONE_SHOVEL, Items.STONE_SPEAR};
 	private static final Item[] wood = new Item[]{Items.WOODEN_PICKAXE, Items.WOODEN_AXE, Items.WOODEN_SWORD, Items.WOODEN_HOE, Items.WOODEN_SHOVEL, Items.WOODEN_SPEAR};
 	private static final Item[] copper = new Item[]{Items.COPPER_PICKAXE, Items.COPPER_AXE, Items.COPPER_SWORD, Items.COPPER_HOE, Items.COPPER_SHOVEL, Items.COPPER_SPEAR, Items.COPPER_HELMET, Items.COPPER_CHESTPLATE, Items.COPPER_LEGGINGS, Items.COPPER_BOOTS};
 	private static final Item[] gold = new Item[]{Items.GOLDEN_PICKAXE, Items.GOLDEN_AXE, Items.GOLDEN_SWORD, Items.GOLDEN_HOE, Items.GOLDEN_SHOVEL, Items.GOLDEN_SPEAR, Items.GOLDEN_HELMET, Items.GOLDEN_CHESTPLATE, Items.GOLDEN_LEGGINGS, Items.GOLDEN_BOOTS};
 	private static final Item[] iron = new Item[]{Items.IRON_PICKAXE, Items.IRON_AXE, Items.IRON_SWORD, Items.IRON_HOE, Items.IRON_SHOVEL, Items.IRON_SPEAR, Items.IRON_HELMET, Items.IRON_CHESTPLATE, Items.IRON_LEGGINGS, Items.IRON_BOOTS, Items.SHIELD};
 	private static final Item[] chainmail = new Item[]{Items.CHAINMAIL_HELMET, Items.CHAINMAIL_CHESTPLATE, Items.CHAINMAIL_LEGGINGS, Items.CHAINMAIL_BOOTS};
-	private static final Item[] diamond = new Item[]{Items.DIAMOND_PICKAXE, Items.DIAMOND_AXE, Items.DIAMOND_SWORD, Items.DIAMOND_HOE, Items.DIAMOND_SHOVEL, Items.DIAMOND_SPEAR, Items.DIAMOND_HELMET, Items.DIAMOND_CHESTPLATE, Items.DIAMOND_LEGGINGS, Items.DIAMOND_BOOTS, Items.ANVIL, Items.CHIPPED_ANVIL, Items.DAMAGED_ANVIL, Items.ENCHANTING_TABLE, Items.END_CRYSTAL};
+	private static final Item[] diamond = new Item[]{Items.DIAMOND_PICKAXE, Items.DIAMOND_AXE, Items.DIAMOND_SWORD, Items.DIAMOND_HOE, Items.DIAMOND_SHOVEL, Items.DIAMOND_SPEAR, Items.DIAMOND_HELMET, Items.DIAMOND_CHESTPLATE, Items.DIAMOND_LEGGINGS, Items.DIAMOND_BOOTS, Items.ENCHANTING_TABLE, Items.END_CRYSTAL};
 	private static final Item[] netherite = new Item[]{Items.NETHERITE_PICKAXE, Items.NETHERITE_AXE, Items.NETHERITE_SWORD, Items.NETHERITE_HOE, Items.NETHERITE_SHOVEL, Items.NETHERITE_SPEAR, Items.NETHERITE_HELMET, Items.NETHERITE_CHESTPLATE, Items.NETHERITE_LEGGINGS, Items.NETHERITE_BOOTS};
+	private static final Item[] anvil = new Item[]{Items.ANVIL, Items.CHIPPED_ANVIL, Items.DAMAGED_ANVIL};
 	private static final Item[] permaBan = new Item[]{Items.ENCHANTED_BOOK, Items.TOTEM_OF_UNDYING};
 
 	public RemoveItemsProcedure() {
@@ -185,6 +182,17 @@ public class RemoveItemsProcedure {
 				playSoundAndMessage("Elytra", world);
 			}
 		}
+		if (!timeAnvil) {
+			if ((Toolsarmorprogression.tickCounter / 24000) < Toolsarmorprogression.anvil) {
+
+				for (Item item : anvil)
+					if (hasEntityInInventory(player, new ItemStack(item)))
+						playerIsNaughty(player, item, world, x, y, z);
+			} else {
+				timeAnvil = true;
+				playSoundAndMessage("Anvil", world);
+			}
+		}
 		if (!timeMace) {
 			if ((Toolsarmorprogression.tickCounter / 24000) < Toolsarmorprogression.mace) {
 
@@ -194,6 +202,26 @@ public class RemoveItemsProcedure {
 			} else {
 				timeMace = true;
 				playSoundAndMessage("Mace", world);
+			}
+		} if (!timeEnchantingTable) {
+			if ((Toolsarmorprogression.tickCounter / 24000) < Toolsarmorprogression.enchantingTable) {
+
+				if (hasEntityInInventory(player, new ItemStack(Items.ENCHANTING_TABLE)))
+					playerIsNaughty(player, Items.ENCHANTING_TABLE, world, x, y, z);
+
+			} else {
+				timeEnchantingTable = true;
+				playSoundAndMessage("Enchanting table", world);
+			}
+		} if (!timeEndCrystal) {
+			if ((Toolsarmorprogression.tickCounter / 24000) < Toolsarmorprogression.endCrystal) {
+
+				if (hasEntityInInventory(player, new ItemStack(Items.END_CRYSTAL)))
+					playerIsNaughty(player, Items.END_CRYSTAL, world, x, y, z);
+
+			} else {
+				timeEndCrystal = true;
+				playSoundAndMessage("End crystal", world);
 			}
 		}
 		if (world.getServer() != null) {

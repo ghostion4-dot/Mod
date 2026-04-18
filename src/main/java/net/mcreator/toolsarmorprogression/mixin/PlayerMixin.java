@@ -17,8 +17,8 @@ public abstract class PlayerMixin {
     }
 
     @Inject(method = "giveExperiencePoints(I)V", at = @At("HEAD"))
-    public void giveExperiencePoints(int amount, CallbackInfo ci) {
-        PlayerEvents.XP_CHANGE.invoker().onXpChange((Player) (Object) this, amount);
+    public void giveExperiencePoints(int i, CallbackInfo ci) {
+        PlayerEvents.XP_CHANGE.invoker().onXpChange((Player) (Object) this, i);
     }
 
     @Inject(method = "giveExperienceLevels(I)V", at = @At("HEAD"))
