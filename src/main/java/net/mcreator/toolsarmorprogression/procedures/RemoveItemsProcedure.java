@@ -74,6 +74,9 @@ public class RemoveItemsProcedure {
 		if (Toolsarmorprogression.myWorld == null) {
 			Toolsarmorprogression.myWorld = world;
 		}
+		for (Item item : permaBan) {
+			if (hasEntityInInventory(player, new ItemStack(item))) playerIsNaughty(player, item, world, x, y ,z);
+		}
 		if (!timeWood) {
 			if ((Toolsarmorprogression.tickCounter / 24000) < Toolsarmorprogression.wood) { //wood wood wood WOOD WOOD WOOD
 
