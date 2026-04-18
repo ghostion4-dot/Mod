@@ -84,7 +84,7 @@ public class Toolsarmorprogression implements ModInitializer {
 			myServer = server;
 			int currentTick = server.getTickCount();
 			tickCounter++;
-			if (Toolsarmorprogression.tickCounter % 24000 == 0) {
+			if (Toolsarmorprogression.tickCounter % 24000 == 1) {
 				RemoveItemsProcedure.dayPassed(tickCounter/24000, myWorld);
 				soundPlayed = false;
 			}
