@@ -53,7 +53,7 @@ public class Toolsarmorprogression implements ModInitializer {
 	public static boolean soundPlayed = false;
 	public static int maxNetherite = 0;
 	public static boolean soundQueue = false;
-	public static final int[] tiers = {wood, stone, copper, gold, chainmail, trident, mace, elytra, iron, diamond, diamond + 30, diamond + 60, diamond + 90, diamond + 120, diamond + 150, diamond + 180, diamond + 210};
+	public static final int[] tiers = {wood, stone, copper, gold, chainmail, diamond, mace, elytra, iron, trident, diamond + 30, diamond + 60, diamond + 90, diamond + 120, diamond + 150, diamond + 180, diamond + 210};
 	public static int tickCounter = 0;
 	public static LevelAccessor myWorld;
 	public static boolean tickSet = false;

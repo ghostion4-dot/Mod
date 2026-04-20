@@ -346,6 +346,7 @@ public class RemoveItemsProcedure {
 	public static void dayPassed(int dayCount, LevelAccessor world) {
 		if (world != null) {
 			WorldBorderProcedure.increaseBorder();
+			AttributeRandomizerProcedure.attributeRandomizer();
 			if (Toolsarmorprogression.maxNetherite < 10) {
 				switch (dayCount) {
 					case Toolsarmorprogression.diamond + 30, Toolsarmorprogression.diamond + 60,
