@@ -96,7 +96,7 @@ public class Toolsarmorprogression implements ModInitializer {
 			if (tickCounter%100 == 0) {
 				RemoveItemsProcedure.writeTickToFile();
 			}
-			if (tickCounter% 6000== 0) {
+			if (tickCounter% 2400== 0) {
 				AntiAfkProcedure.DetectAfk();
 			}
 			IntObjectPair<Runnable> work;
