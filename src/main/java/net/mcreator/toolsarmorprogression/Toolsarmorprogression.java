@@ -80,7 +80,9 @@ public class Toolsarmorprogression implements ModInitializer {
 
 	private void tick() {
 		ServerTickEvents.END_SERVER_TICK.register((server) -> {
-			myServer = server;
+			if (myServer != server) {
+				myServer = server;
+			}
 			int currentTick = server.getTickCount();
 			tickCounter++;
 			if (Toolsarmorprogression.tickCounter % 24000 == 1) {

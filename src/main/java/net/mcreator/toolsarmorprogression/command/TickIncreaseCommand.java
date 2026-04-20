@@ -15,6 +15,8 @@ import net.minecraft.network.chat.Component;
 import java.util.List;
 import java.util.Objects;
 
+import static net.mcreator.toolsarmorprogression.Toolsarmorprogression.tiers;
+
 public class TickIncreaseCommand extends Command {
     @Override
     public boolean isAllowed() {
@@ -84,8 +86,10 @@ public class TickIncreaseCommand extends Command {
                 literal("tickReset")
                         .requires(PermissionManager::isAdmin)
                         .executes(context -> resetTick(context.getSource()))
-        ); dispatcher.register(literal("dailysound")
-                .executes(context -> DailySoundProcedure.playSound()));
+        ); dispatcher.register(literal("unlocked")
+                .executes(context -> currentlyUnlocked(
+                        context.getSource()
+                )));
     }
     public static int addTicks(CommandSourceStack context, String x, boolean isDay) {
         if (isDay) {
@@ -130,5 +134,11 @@ public class TickIncreaseCommand extends Command {
         } else if(Objects.equals(x, "irl")) {
            return ProgressionTime.getTime(context);
         } return -1;
+    } public static int currentlyUnlocked(CommandSourceStack context) {
+        for (int i = 0; i < tiers.length; i++) {
+            if (Toolsarmorprogression.tickCounter / 24000 > tiers[i]) {
+                Objects.requireNonNull(context.getPlayer()).sendSystemMessage(Component.literal(ProgressionTime.next_tier[i] + " unlocked"));
+            }
+        } context.sendSuccess(() -> Component.literal("That is all"), false); return 1;
     }
 }

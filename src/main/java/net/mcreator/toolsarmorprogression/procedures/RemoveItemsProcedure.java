@@ -2,6 +2,9 @@ package net.mcreator.toolsarmorprogression.procedures;
 
 import net.mcreator.toolsarmorprogression.Toolsarmorprogression;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.protocol.game.ClientboundClearTitlesPacket;
+import net.minecraft.network.protocol.game.ClientboundSetTitleTextPacket;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.LevelAccessor;
@@ -286,16 +289,25 @@ public class RemoveItemsProcedure {
 
 	public static void playSoundAndMessage(String tool, LevelAccessor world) {
 		for (Player player : world.players()) {
-			if (!Toolsarmorprogression.soundPlayed) {
+
 				player.playSound(SoundEvents.UI_TOAST_CHALLENGE_COMPLETE);
 				Toolsarmorprogression.soundPlayed = true;
 			}
-			player.sendSystemMessage(Component.literal(tool + " has been unlocked!"));
+
 			if (Toolsarmorprogression.myServer != null) {
-				Toolsarmorprogression.myServer.getCommands().performPrefixedCommand(Toolsarmorprogression.myServer.createCommandSourceStack(), "title " + player.getPlainTextName() + " reset");
-				Toolsarmorprogression.myServer.getCommands().performPrefixedCommand(Toolsarmorprogression.myServer.createCommandSourceStack(), "title " + player.getPlainTextName() + " title " + "\"New tools unlocked\"");
+				ClientboundClearTitlesPacket packet = new ClientboundClearTitlesPacket(false);
+				ClientboundSetTitleTextPacket setPacket = new ClientboundSetTitleTextPacket(Component.literal("New tools have been unlocked"));
+				for (ServerPlayer serverPlayer : Toolsarmorprogression.myServer.getPlayerList().getPlayers()) {
+					serverPlayer.sendSystemMessage(Component.literal(tool + " has been unlocked!"));
+					serverPlayer.connection.send(packet);
+					serverPlayer.connection.send(setPacket);
+
+				}
+				if (!Toolsarmorprogression.soundPlayed) for (ServerPlayer player : Toolsarmorprogression.myServer.getPlayerList().getPlayers()) {
+					player.playSound(SoundEvents.UI_TOAST_CHALLENGE_COMPLETE);
+				}
+
 			}
-		}
 	}
 
 	public static void doPlayersHaveNetherite(int maxNetherite, LevelAccessor world) {
