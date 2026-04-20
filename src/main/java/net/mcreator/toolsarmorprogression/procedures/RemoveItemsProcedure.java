@@ -2,6 +2,9 @@ package net.mcreator.toolsarmorprogression.procedures;
 
 import net.mcreator.toolsarmorprogression.Toolsarmorprogression;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.protocol.game.ClientboundClearTitlesPacket;
+import net.minecraft.network.protocol.game.ClientboundSetTitleTextPacket;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.LevelAccessor;
@@ -50,6 +53,7 @@ public class RemoveItemsProcedure {
 	private static final Item[] netherite = new Item[]{Items.NETHERITE_PICKAXE, Items.NETHERITE_AXE, Items.NETHERITE_SWORD, Items.NETHERITE_HOE, Items.NETHERITE_SHOVEL, Items.NETHERITE_SPEAR, Items.NETHERITE_HELMET, Items.NETHERITE_CHESTPLATE, Items.NETHERITE_LEGGINGS, Items.NETHERITE_BOOTS};
 	private static final Item[] anvil = new Item[]{Items.ANVIL, Items.CHIPPED_ANVIL, Items.DAMAGED_ANVIL};
 	private static final Item[] permaBan = new Item[]{Items.ENCHANTED_BOOK, Items.TOTEM_OF_UNDYING};
+	private static final Item[] bob = new Item[]{Items.PUFFERFISH, Items.PUFFERFISH_BUCKET};
 
 	public RemoveItemsProcedure() {
 		PlayerEvents.END_PLAYER_TICK.register(entity -> {
@@ -58,7 +62,6 @@ public class RemoveItemsProcedure {
 	}
 
 	public static void execute(LevelAccessor world, double x, double y, double z, Entity entity) {
-
 		if (entity == null)
 			return;
 		if (!(entity instanceof Player player)) return;
@@ -70,6 +73,9 @@ public class RemoveItemsProcedure {
 		}
 		if (Toolsarmorprogression.myWorld == null) {
 			Toolsarmorprogression.myWorld = world;
+		}
+		for (Item item : bob) {
+			if (hasEntityInInventory(player, new ItemStack(item))) BobSetterProcedure.setBob(item, player);
 		}
 		for (Item item : permaBan) {
 			if (hasEntityInInventory(player, new ItemStack(item))) playerIsNaughty(player, item, world, x, y ,z);
@@ -286,16 +292,25 @@ public class RemoveItemsProcedure {
 
 	public static void playSoundAndMessage(String tool, LevelAccessor world) {
 		for (Player player : world.players()) {
-			if (!Toolsarmorprogression.soundPlayed) {
+
 				player.playSound(SoundEvents.UI_TOAST_CHALLENGE_COMPLETE);
 				Toolsarmorprogression.soundPlayed = true;
 			}
-			player.sendSystemMessage(Component.literal(tool + " has been unlocked!"));
+
 			if (Toolsarmorprogression.myServer != null) {
-				Toolsarmorprogression.myServer.getCommands().performPrefixedCommand(Toolsarmorprogression.myServer.createCommandSourceStack(), "title " + player.getPlainTextName() + " reset");
-				Toolsarmorprogression.myServer.getCommands().performPrefixedCommand(Toolsarmorprogression.myServer.createCommandSourceStack(), "title " + player.getPlainTextName() + " title " + "\"New tools unlocked\"");
+				ClientboundClearTitlesPacket packet = new ClientboundClearTitlesPacket(false);
+				ClientboundSetTitleTextPacket setPacket = new ClientboundSetTitleTextPacket(Component.literal("New tools have been unlocked"));
+				for (ServerPlayer serverPlayer : Toolsarmorprogression.myServer.getPlayerList().getPlayers()) {
+					serverPlayer.sendSystemMessage(Component.literal(tool + " has been unlocked!"));
+					serverPlayer.connection.send(packet);
+					serverPlayer.connection.send(setPacket);
+
+				}
+				if (!Toolsarmorprogression.soundPlayed) for (ServerPlayer player : Toolsarmorprogression.myServer.getPlayerList().getPlayers()) {
+					player.playSound(SoundEvents.UI_TOAST_CHALLENGE_COMPLETE);
+				}
+
 			}
-		}
 	}
 
 	public static void doPlayersHaveNetherite(int maxNetherite, LevelAccessor world) {
@@ -330,6 +345,8 @@ public class RemoveItemsProcedure {
 
 	public static void dayPassed(int dayCount, LevelAccessor world) {
 		if (world != null) {
+			WorldBorderProcedure.increaseBorder();
+			AttributeRandomizerProcedure.attributeRandomizer();
 			if (Toolsarmorprogression.maxNetherite < 10) {
 				switch (dayCount) {
 					case Toolsarmorprogression.diamond + 30, Toolsarmorprogression.diamond + 60,
