@@ -5,14 +5,12 @@ import com.mojang.brigadier.arguments.StringArgumentType;
 import net.mcreator.toolsarmorprogression.Toolsarmorprogression;
 import net.mcreator.toolsarmorprogression.command.manager.Command;
 import net.mcreator.toolsarmorprogression.procedures.AttributeRandomizerProcedure;
-import net.mcreator.toolsarmorprogression.procedures.DailySoundProcedure;
 import net.mcreator.toolsarmorprogression.procedures.ProgressionTime;
 import net.mcreator.toolsarmorprogression.procedures.RemoveItemsProcedure;
 import net.mcreator.toolsarmorprogression.utils.PermissionManager;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.SharedSuggestionProvider;
 import net.minecraft.network.chat.Component;
-import org.spongepowered.asm.mixin.injection.At;
 
 import java.util.List;
 import java.util.Objects;

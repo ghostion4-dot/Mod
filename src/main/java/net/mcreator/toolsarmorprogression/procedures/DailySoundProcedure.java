@@ -16,12 +16,12 @@ public class DailySoundProcedure {
     static List<Boolean> playedTwice = new ArrayList<>();
     static List<Boolean> playedThrice = new ArrayList<>();
     static List<String> players = new ArrayList<>();
-    static ClientboundSetActionBarTextPacket firstTitle = new ClientboundSetActionBarTextPacket(Component.literal("D"));
-    static ClientboundSetActionBarTextPacket secondTitle = new ClientboundSetActionBarTextPacket(Component.literal("Da"));
-    static ClientboundSetActionBarTextPacket thirdTitle = new ClientboundSetActionBarTextPacket(Component.literal("Day"));
-    public static ClientboundSetActionBarTextPacket lastTitle = new ClientboundSetActionBarTextPacket(Component.literal("Day " + Toolsarmorprogression.tickCounter/24000));
+    static ClientboundSetActionBarTextPacket firstTitle = new ClientboundSetActionBarTextPacket(Component.nullToEmpty("§aD"));
+    static ClientboundSetActionBarTextPacket secondTitle = new ClientboundSetActionBarTextPacket(Component.literal("§eD§aa"));
+    static ClientboundSetActionBarTextPacket thirdTitle = new ClientboundSetActionBarTextPacket(Component.literal("§6D§ea§ay"));
+    public static ClientboundSetActionBarTextPacket lastTitle = new ClientboundSetActionBarTextPacket(Component.literal("§cD§6a§ey §a" + Toolsarmorprogression.tickCounter/24000));
     public static void playSound() {
-        lastTitle = new ClientboundSetActionBarTextPacket(Component.literal("Day " + Toolsarmorprogression.tickCounter/24000));
+        lastTitle = new ClientboundSetActionBarTextPacket(Component.literal("§cD§6a§ey §a" + Toolsarmorprogression.tickCounter/24000));
         if (Toolsarmorprogression.tickCounter % 4 == 0) {
             for (ServerPlayer player : Toolsarmorprogression.myServer.getPlayerList().getPlayers()) {
                 ClientboundSoundPacket chimePitch06 = new ClientboundSoundPacket(SoundEvents.NOTE_BLOCK_CHIME, SoundSource.MASTER, player.getX(), player.getY(),player.getZ(), 1.0f, 0.6f, Toolsarmorprogression.myWorld.getRandom().nextLong());
