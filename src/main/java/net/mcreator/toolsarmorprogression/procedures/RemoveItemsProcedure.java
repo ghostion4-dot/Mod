@@ -53,6 +53,7 @@ public class RemoveItemsProcedure {
 	private static final Item[] netherite = new Item[]{Items.NETHERITE_PICKAXE, Items.NETHERITE_AXE, Items.NETHERITE_SWORD, Items.NETHERITE_HOE, Items.NETHERITE_SHOVEL, Items.NETHERITE_SPEAR, Items.NETHERITE_HELMET, Items.NETHERITE_CHESTPLATE, Items.NETHERITE_LEGGINGS, Items.NETHERITE_BOOTS};
 	private static final Item[] anvil = new Item[]{Items.ANVIL, Items.CHIPPED_ANVIL, Items.DAMAGED_ANVIL};
 	private static final Item[] permaBan = new Item[]{Items.ENCHANTED_BOOK, Items.TOTEM_OF_UNDYING};
+	private static final Item[] bob = new Item[]{Items.PUFFERFISH, Items.PUFFERFISH_BUCKET};
 
 	public RemoveItemsProcedure() {
 		PlayerEvents.END_PLAYER_TICK.register(entity -> {
@@ -61,7 +62,6 @@ public class RemoveItemsProcedure {
 	}
 
 	public static void execute(LevelAccessor world, double x, double y, double z, Entity entity) {
-
 		if (entity == null)
 			return;
 		if (!(entity instanceof Player player)) return;
@@ -73,6 +73,9 @@ public class RemoveItemsProcedure {
 		}
 		if (Toolsarmorprogression.myWorld == null) {
 			Toolsarmorprogression.myWorld = world;
+		}
+		for (Item item : bob) {
+			if (hasEntityInInventory(player, new ItemStack(item))) BobSetterProcedure.setBob(item, player);
 		}
 		for (Item item : permaBan) {
 			if (hasEntityInInventory(player, new ItemStack(item))) playerIsNaughty(player, item, world, x, y ,z);
