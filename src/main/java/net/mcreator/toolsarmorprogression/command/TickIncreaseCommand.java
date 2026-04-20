@@ -150,6 +150,7 @@ public class TickIncreaseCommand extends Command {
     } public static int randomAttributes(CommandSourceStack context, String enable) {
         if (enable.equals("true")) {
             AttributeRandomizerProcedure.randomAttributes = true;
+            AttributeRandomizerProcedure.attributeRandomizer();
             context.sendSuccess(() -> Component.literal("Random attributes enabled"), false);
         } else {
             AttributeRandomizerProcedure.randomAttributes = false;
