@@ -18,7 +18,6 @@ public class PlayerDeathRoleProcedure {
     static List<Boolean> playerIsIn = new ArrayList<>();
     static List<ServerPlayer> players = new ArrayList<>();
     public static void playerDeaths() {
-        boolean doContinue = false;
         text.clear();
         playerIsIn.clear();
         players.clear();
