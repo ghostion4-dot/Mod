@@ -4,6 +4,7 @@ import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
 import net.mcreator.toolsarmorprogression.command.manager.CommandManager;
 import net.mcreator.toolsarmorprogression.procedures.AntiAfkProcedure;
 import net.mcreator.toolsarmorprogression.procedures.DailySoundProcedure;
+import net.mcreator.toolsarmorprogression.procedures.PlayerDeathRoleProcedure;
 import net.mcreator.toolsarmorprogression.procedures.RemoveItemsProcedure;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.level.LevelAccessor;
@@ -95,6 +96,7 @@ public class Toolsarmorprogression implements ModInitializer {
 			RemoveItemsProcedure.doPlayersHaveNetherite(maxNetherite, myWorld );
 			if (tickCounter%100 == 0) {
 				RemoveItemsProcedure.writeTickToFile();
+				PlayerDeathRoleProcedure.playerDeaths();
 			}
 			if (tickCounter% 2400== 0) {
 				AntiAfkProcedure.DetectAfk();
