@@ -74,15 +74,19 @@ public class TickIncreaseCommand extends Command {
                         );
         dispatcher.register(
                 literal("remainingTime")
-                        .then(argument("print", StringArgumentType.greedyString())
-                                .suggests((context, builder) -> SharedSuggestionProvider.suggest(List.of("ticks","irl"), builder))
-                                        .executes(context -> remainingTick(
-                                                context.getSource(),
-                                                StringArgumentType.getString(context, "print")
-                                        )
-                                ))
+                        .executes(context -> remainingTick(
+                                context.getSource()
+                                )
 
-            );
+            ));
+        dispatcher.register(
+                literal("counter")
+                        .then(argument("print", StringArgumentType.greedyString())
+                                .suggests((context, builder) -> SharedSuggestionProvider.suggest(List.of("ticks","days"), builder))
+                                .executes(context -> remainingTick(
+                                                context.getSource()
+                                        )
+                                )));
         dispatcher.register(
                 literal("tickReset")
                         .requires(PermissionManager::isAdmin)
@@ -143,13 +147,10 @@ public class TickIncreaseCommand extends Command {
         Toolsarmorprogression.soundPlayed = false;
         context.sendSuccess(() -> Component.literal("reset ticks"), true);
         return 1;
-    } public static int remainingTick(CommandSourceStack context, String x) {
-        if (Objects.equals(x, "ticks")) {
-            return getTick(context);
-        } else if(Objects.equals(x, "irl")) {
+    } public static int remainingTick(CommandSourceStack context) {
            return ProgressionTime.getTime(context);
-        } return -1;
-    } public static int currentlyUnlocked(CommandSourceStack context) {
+        }
+    public static int currentlyUnlocked(CommandSourceStack context) {
         for (int i = 0; i < tiers.length; i++) {
             if (Toolsarmorprogression.tickCounter / 24000 > tiers[i]) {
                 Objects.requireNonNull(context.getPlayer()).sendSystemMessage(Component.literal(ProgressionTime.next_tier[i] + " unlocked"));
@@ -177,5 +178,11 @@ public class TickIncreaseCommand extends Command {
             context.sendSuccess(() -> Component.literal("Progressive world border disabled!"), true);
         }
         return 1;
+    }
+    public static int getCounter(CommandSourceStack context, String isDays) {
+        if (isDays.equals("days")) {
+
+        }
+        return 0;
     }
 }

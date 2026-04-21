@@ -2,10 +2,7 @@ package net.mcreator.toolsarmorprogression;
 
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
 import net.mcreator.toolsarmorprogression.command.manager.CommandManager;
-import net.mcreator.toolsarmorprogression.procedures.AntiAfkProcedure;
-import net.mcreator.toolsarmorprogression.procedures.DailySoundProcedure;
-import net.mcreator.toolsarmorprogression.procedures.PlayerDeathRoleProcedure;
-import net.mcreator.toolsarmorprogression.procedures.RemoveItemsProcedure;
+import net.mcreator.toolsarmorprogression.procedures.*;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.level.LevelAccessor;
 import org.jetbrains.annotations.Nullable;
@@ -62,6 +59,25 @@ public class Toolsarmorprogression implements ModInitializer {
 	public void onInitialize() {
 		// Start of user code block mod constructor
 		// End of user code block mod constructor
+		// Bubble sort for the tiers array
+		boolean Sorted = false;
+		while (!Sorted) {
+			Sorted = true;
+			for (int i = 0; i < tiers.length-1; i++) {
+				if (tiers[i] > tiers[i+1]) {
+					int swap = tiers[i];
+					String swap_str = ProgressionTime.next_tier[i];
+					String name_str = ProgressionTime.name_color[i];
+					tiers[i] = tiers[i+1];
+					tiers[i+1] = swap;
+					ProgressionTime.next_tier[i] = ProgressionTime.next_tier[i+1];
+					ProgressionTime.next_tier[i+1] = swap_str;
+					ProgressionTime.name_color[i] = ProgressionTime.name_color[i+1];
+					ProgressionTime.name_color[i+1] = name_str;
+					Sorted = false;
+				}
+			}
+		}
 		LOGGER.info("Initializing ToolsArmorProgressionMod");
 		CommandRegistrationCallback.EVENT.register(CommandManager::registerAllCommands);
 		ToolsArmorProgressionModProcedures.load();

@@ -299,7 +299,7 @@ public class RemoveItemsProcedure {
 
 			if (Toolsarmorprogression.myServer != null) {
 				ClientboundClearTitlesPacket packet = new ClientboundClearTitlesPacket(false);
-				ClientboundSetTitleTextPacket setPacket = new ClientboundSetTitleTextPacket(Component.literal("New tools have been unlocked"));
+				ClientboundSetTitleTextPacket setPacket = new ClientboundSetTitleTextPacket(Component.literal("§6" + tool + " unlocked!"));
 				for (ServerPlayer serverPlayer : Toolsarmorprogression.myServer.getPlayerList().getPlayers()) {
 					serverPlayer.sendSystemMessage(Component.literal(tool + " has been unlocked!"));
 					serverPlayer.connection.send(packet);
