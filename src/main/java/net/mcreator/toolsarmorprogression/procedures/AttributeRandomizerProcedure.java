@@ -5,8 +5,6 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 
-import java.util.Random;
-import java.util.random.RandomGenerator;
 
 public class AttributeRandomizerProcedure {
     public static boolean randomAttributes;

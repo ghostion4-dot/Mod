@@ -30,16 +30,6 @@ public abstract class Command {
         return false;
         }
 
-    /*
-    public boolean isAllowed(ServerCommandSource source) {
-        return isAllowed();
-    }
-
-    public boolean isAllowedAndAdmin(ServerCommandSource source) {
-        return isAllowed() && PermissionManager.isAdmin(source);
-    }
-    */
-
     public static LiteralArgumentBuilder<CommandSourceStack> literal(String string) {
         return Commands.literal(string);
     }

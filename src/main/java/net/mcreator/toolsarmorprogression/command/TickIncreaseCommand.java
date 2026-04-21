@@ -5,14 +5,13 @@ import com.mojang.brigadier.arguments.StringArgumentType;
 import net.mcreator.toolsarmorprogression.Toolsarmorprogression;
 import net.mcreator.toolsarmorprogression.command.manager.Command;
 import net.mcreator.toolsarmorprogression.procedures.AttributeRandomizerProcedure;
-import net.mcreator.toolsarmorprogression.procedures.DailySoundProcedure;
 import net.mcreator.toolsarmorprogression.procedures.ProgressionTime;
 import net.mcreator.toolsarmorprogression.procedures.RemoveItemsProcedure;
+import net.mcreator.toolsarmorprogression.procedures.WorldBorderProcedure;
 import net.mcreator.toolsarmorprogression.utils.PermissionManager;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.SharedSuggestionProvider;
 import net.minecraft.network.chat.Component;
-import org.spongepowered.asm.mixin.injection.At;
 
 import java.util.List;
 import java.util.Objects;
@@ -92,11 +91,20 @@ public class TickIncreaseCommand extends Command {
                 .executes(context -> currentlyUnlocked(
                         context.getSource()
                 )));
-        dispatcher.register(literal("randomAttributes")
+        dispatcher.register(literal("enable")
                 .requires(PermissionManager::isAdmin)
+                        .then(literal("attributes")
                 .then(argument("enable", StringArgumentType.greedyString())
                         .suggests(((context, builder) -> SharedSuggestionProvider.suggest(List.of("true","false"), builder))
-                                ) .executes(context -> randomAttributes(context.getSource(),StringArgumentType.getString(context, "enable")))));
+                                ) .executes(context -> randomAttributes(
+                                        context.getSource(),
+                                StringArgumentType.getString(context, "enable")))))
+                .then(literal("worldBorder") .then(argument("enable", StringArgumentType.greedyString())
+                        .suggests(((context, builder) -> SharedSuggestionProvider.suggest(List.of("true","false"), builder))
+                        ) .executes(context -> enableProgressiveBorder(
+                                context.getSource(),
+                                StringArgumentType.getString(context, "enable")))))
+        );
     }
     public static int addTicks(CommandSourceStack context, String x, boolean isDay) {
         if (isDay) {
@@ -156,6 +164,17 @@ public class TickIncreaseCommand extends Command {
             AttributeRandomizerProcedure.randomAttributes = false;
             AttributeRandomizerProcedure.resetAttributes();
             context.sendSuccess(() -> Component.literal("Random attributes disable"), false);
+        }
+        return 1;
+    } public static int enableProgressiveBorder(CommandSourceStack context, String enable) {
+        if (enable.equals("true")) {
+            WorldBorderProcedure.borderOn = true;
+            WorldBorderProcedure.increaseBorder();
+            context.sendSuccess(() -> Component.literal("Progressive world border enabled!"), true);
+        } else {
+            WorldBorderProcedure.borderOn = false;
+            WorldBorderProcedure.increaseBorder();
+            context.sendSuccess(() -> Component.literal("Progressive world border disabled!"), true);
         }
         return 1;
     }
