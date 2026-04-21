@@ -94,7 +94,7 @@ public class Toolsarmorprogression implements ModInitializer {
 				DailySoundProcedure.playSound();
 			}
 			RemoveItemsProcedure.doPlayersHaveNetherite(maxNetherite, myWorld );
-			if (tickCounter%100 == 2) {
+			if (tickCounter%100 == 10) {
 				RemoveItemsProcedure.writeTickToFile();
 				PlayerDeathRoleProcedure.playerDeaths();
 			}
