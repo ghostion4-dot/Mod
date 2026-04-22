@@ -7,6 +7,8 @@ import net.minecraft.network.protocol.game.ClientboundClearTitlesPacket;
 import net.minecraft.network.protocol.game.ClientboundSetTitleTextPacket;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.GameType;
 import net.minecraft.world.level.LevelAccessor;
@@ -81,6 +83,7 @@ public class RemoveItemsProcedure {
 				player.teleportTo(((int)limboLocation.x + 1) - 0.5, ((int)limboLocation.y + 2) + 0.5, ((int) limboLocation.z + 1) - 0.5);
 				player.setGameMode(GameType.ADVENTURE);
 				playerInLimbo.add(player.getPlainTextName());
+				player.addEffect(new MobEffectInstance(MobEffects.INVISIBILITY, MobEffectInstance.INFINITE_DURATION, 1, true, false));
 			}
 		}
 		if (Toolsarmorprogression.myWorld == null) {

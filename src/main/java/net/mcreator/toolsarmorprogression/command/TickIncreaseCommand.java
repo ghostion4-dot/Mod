@@ -19,10 +19,13 @@ import net.minecraft.network.protocol.game.ClientboundSetActionBarTextPacket;
 import net.minecraft.network.protocol.game.ClientboundSetSubtitleTextPacket;
 import net.minecraft.network.protocol.game.ClientboundSoundPacket;
 import net.minecraft.resources.ResourceKey;
+import net.minecraft.server.commands.EffectCommands;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.level.GameType;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.SpawnData;
@@ -243,18 +246,21 @@ public class TickIncreaseCommand extends Command {
             myWorld.setBlock(new BlockPos((int) limboLocation.x, (int) (limboLocation.y + 2), (int) limboLocation.z + 1), Blocks.BARRIER.defaultBlockState(), 10);
             myWorld.setBlock(new BlockPos((int) limboLocation.x, (int) (limboLocation.y + 3), (int) limboLocation.z + 1), Blocks.BARRIER.defaultBlockState(), 10);
             myWorld.setBlock(new BlockPos((int) limboLocation.x, (int) (limboLocation.y + 3), (int) limboLocation.z - 1), Blocks.BARRIER.defaultBlockState(), 10);
+            playerInLimbo.add(Objects.requireNonNull(context.getPlayer()).getPlainTextName());
             for (ServerPlayer player : myServer.getPlayerList().getPlayers()) {
                 if (player != context.getPlayer()) {
                     player.teleportTo(((int)limboLocation.x + 1) - 0.5, ((int)limboLocation.y + 2) + 0.5, ((int) limboLocation.z + 1) - 0.5);
                     player.setGameMode(GameType.ADVENTURE);
                     playerInLimbo.add(player.getPlainTextName());
-                    playerInLimbo.add(Objects.requireNonNull(context.getPlayer()).getPlainTextName());
+                    player.addEffect(new MobEffectInstance(MobEffects.INVISIBILITY, MobEffectInstance.INFINITE_DURATION, 1, true, false));
                 }
             } limboOn = true;
             myServer.getGameRules().set(GameRules.ADVANCE_TIME, false, myServer);
             myServer.getGameRules().set(GameRules.PVP, false, myServer);
             tickBeforeLimbo = tickCounter;
-        } else {
+            context.sendSuccess(() -> Component.literal("Limbo turned on"), true);
+            return 1;
+        } else if (enable.equals("false")){
             myWorld.setBlock(new BlockPos((int) limboLocation.x, (int) (limboLocation.y + 1), (int) limboLocation.z), Blocks.AIR.defaultBlockState(), 10);
             myWorld.setBlock(new BlockPos((int) limboLocation.x, (int) (limboLocation.y + 4), (int) limboLocation.z), Blocks.AIR.defaultBlockState(), 10);
             myWorld.setBlock(new BlockPos((int) limboLocation.x + 1, (int) (limboLocation.y + 2), (int) limboLocation.z), Blocks.AIR.defaultBlockState(), 10);
@@ -270,8 +276,11 @@ public class TickIncreaseCommand extends Command {
             tickCounter = tickBeforeLimbo;
             for (ServerPlayer player : myServer.getPlayerList().getPlayers()) {
                     player.setGameMode(GameType.SURVIVAL);
+                    player.removeEffect(MobEffects.INVISIBILITY);
             } limboOn = false;
+            context.sendSuccess(() -> Component.literal("Limbo turned off"), true);
+            return 1;
         }
-        return 1;
+        return -1;
     }
 }
