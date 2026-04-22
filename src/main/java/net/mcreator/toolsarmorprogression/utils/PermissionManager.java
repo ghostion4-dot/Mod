@@ -10,11 +10,7 @@ public class PermissionManager {
     public static boolean isAdmin(ServerPlayer player) {
         if (player == null) return false;
         if (myServer == null) return false;
-        //? if < 1.21.9 {
-        /*return server.getPlayerList().isOp(player.getGameProfile());
-         *///?} else {
         return myServer.getPlayerList().isOp(player.nameAndId());
-        //?}
     }
 
     public static boolean isAdmin(CommandSourceStack source) {

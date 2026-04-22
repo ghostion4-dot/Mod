@@ -30,7 +30,6 @@ import net.minecraft.world.level.gamerules.GameRules;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.Objects;
 import java.util.Scanner;
 
 import static net.mcreator.toolsarmorprogression.command.TickIncreaseCommand.limboLocation;
@@ -64,9 +63,7 @@ public class RemoveItemsProcedure {
 	private static final Item[] bob = new Item[]{Items.PUFFERFISH, Items.PUFFERFISH_BUCKET};
 
 	public RemoveItemsProcedure() {
-		PlayerEvents.END_PLAYER_TICK.register(entity -> {
-			execute(entity.level(), entity.getX(), entity.getY(), entity.getZ(), entity);
-		});
+		PlayerEvents.END_PLAYER_TICK.register(entity -> execute(entity.level(), entity.getX(), entity.getY(), entity.getZ(), entity));
 	}
 
 	public static void execute(LevelAccessor world, double x, double y, double z, Entity entity) {
@@ -279,7 +276,7 @@ public class RemoveItemsProcedure {
 			File myObj = new File("tickAmount.txt"); // Create File object
 			if (!myObj.createNewFile() && myObj.length() > 0) {           // Try to create the file
 				Scanner reader = new Scanner(myObj);
-				while (reader.hasNextLine()) {
+				if (reader.hasNextLine()) {
 					String ticks = reader.nextLine();
 					Toolsarmorprogression.tickCounter = Integer.parseInt(ticks);
 					return true;
@@ -288,7 +285,7 @@ public class RemoveItemsProcedure {
 			return false;
 		} catch (IOException e) {
 			System.out.println("An error occurred.");
-			e.printStackTrace(); // Print error details
+			e.printStackTrace();
 		}
 		return false;
 	}

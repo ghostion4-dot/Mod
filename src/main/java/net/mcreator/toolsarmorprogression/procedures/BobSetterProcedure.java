@@ -7,6 +7,8 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 
+import java.util.Objects;
+
 
 public class BobSetterProcedure {
     public static void setBob(Item item, Player player) {
@@ -18,7 +20,7 @@ public class BobSetterProcedure {
             int count = player.getInventory().countItem(item);
             if (item == Items.PUFFERFISH) itemStack.setCount(Math.min(count, 64));
             System.out.println("bob found");
-            player.getInventory().getSlot(x).set(itemStack);
+            Objects.requireNonNull(player.getInventory().getSlot(x)).set(itemStack);
         }
     }
 }

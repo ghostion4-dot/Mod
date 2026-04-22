@@ -17,7 +17,7 @@ import static net.minecraft.util.Mth.floor;
 public class ProgressionTime {
     public static int tier_index = 0;
     public static String[] next_tier = {"wood", "stone", "copper", "gold", "chainmail",  "diamond", "mace", "elytra", "iron", "trident", "next netherite tool", "next netherite tool", "next netherite tool", "next netherite tool", "next netherite tool", "next netherite tool", "all netherite tools"}; // Stores the names, to return to the player
-    public static String[] name_color = {"wood", "§8", "§6", "§e", "§7",  "§b", "§0", "§d", "§7", "§b", "§5", "§5", "§5", "§5", "§5", "§5", "§5"}; ;
+    public static String[] name_color = {"wood", "§8", "§6", "§e", "§7",  "§b", "§0", "§d", "§7", "§b", "§5", "§5", "§5", "§5", "§5", "§5", "§5"};
     public static int getTime(CommandSourceStack context) {
         int current_day = Toolsarmorprogression.tickCounter/24000; // In game days
         for (int i=0; i < tiers.length; i++) {
@@ -36,7 +36,7 @@ public class ProgressionTime {
         String day_suffix = "s"; // Plural suffixes so the grammar for the message is correct
         String hour_suffix = "s";
         String minute_suffix = "s";
-        String day_prefix = "§7";
+        String day_prefix;
         if (remaining_days == 1) {
             day_suffix = "";
             day_prefix = "§c";

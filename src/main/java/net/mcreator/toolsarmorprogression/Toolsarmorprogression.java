@@ -47,7 +47,7 @@ public class Toolsarmorprogression implements ModInitializer {
 	public static final int diamond = 256; // In days
 	public static final int enchantingTable = 256;
 	public static final int endCrystal = 256;
-	public static final int netherite = 256; // In days
+	//public static final int netherite = 256; // In days
 	public static boolean soundPlayed = false;
 	public static int maxNetherite = 0;
 	public static boolean soundQueue = false;
