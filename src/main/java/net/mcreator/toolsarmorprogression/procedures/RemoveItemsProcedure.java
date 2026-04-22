@@ -1,12 +1,14 @@
 package net.mcreator.toolsarmorprogression.procedures;
 
 import net.mcreator.toolsarmorprogression.Toolsarmorprogression;
+import net.mcreator.toolsarmorprogression.command.TickIncreaseCommand;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.protocol.game.ClientboundClearTitlesPacket;
 import net.minecraft.network.protocol.game.ClientboundSetTitleTextPacket;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.level.GameType;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.ItemStack;
@@ -26,7 +28,11 @@ import net.minecraft.world.level.gamerules.GameRules;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.Objects;
 import java.util.Scanner;
+
+import static net.mcreator.toolsarmorprogression.command.TickIncreaseCommand.limboLocation;
+import static net.mcreator.toolsarmorprogression.command.TickIncreaseCommand.playerInLimbo;
 
 public class RemoveItemsProcedure {
 	public static boolean timeWood = false;
@@ -64,11 +70,17 @@ public class RemoveItemsProcedure {
 	public static void execute(LevelAccessor world, double x, double y, double z, Entity entity) {
 		if (entity == null)
 			return;
-		if (!(entity instanceof Player player)) return;
+		if (!(entity instanceof ServerPlayer player)) return;
 		if (!Toolsarmorprogression.tickSet) {
 			Toolsarmorprogression.tickSet = true;
 			if (!readTickFromFile()) {
 				Toolsarmorprogression.tickCounter = Math.toIntExact(world.getGameTime());
+			}
+		} if (TickIncreaseCommand.limboOn) {
+			if (!playerInLimbo.contains(player.getPlainTextName())){
+				player.teleportTo(((int)limboLocation.x + 1) - 0.5, ((int)limboLocation.y + 2) + 0.5, ((int) limboLocation.z + 1) - 0.5);
+				player.setGameMode(GameType.ADVENTURE);
+				playerInLimbo.add(player.getPlainTextName());
 			}
 		}
 		if (Toolsarmorprogression.myWorld == null) {

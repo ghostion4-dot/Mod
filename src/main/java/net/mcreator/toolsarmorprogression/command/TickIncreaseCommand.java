@@ -12,21 +12,26 @@ import net.mcreator.toolsarmorprogression.utils.PermissionManager;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.SharedSuggestionProvider;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.GlobalPos;
 import net.minecraft.core.Holder;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.protocol.game.ClientboundSetActionBarTextPacket;
 import net.minecraft.network.protocol.game.ClientboundSetSubtitleTextPacket;
 import net.minecraft.network.protocol.game.ClientboundSoundPacket;
 import net.minecraft.resources.ResourceKey;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.level.GameType;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.SpawnData;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.gamerules.GameRules;
+import net.minecraft.world.level.storage.LevelData;
 import net.minecraft.world.phys.Vec3;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -34,7 +39,9 @@ import static net.mcreator.toolsarmorprogression.Toolsarmorprogression.*;
 
 public class TickIncreaseCommand extends Command {
     static int tickBeforeLimbo;
-    static Vec3 limboLocation;
+    public static Vec3 limboLocation;
+    public static boolean limboOn;
+    public static List<String> playerInLimbo = new ArrayList<>();
     @Override
     public boolean isAllowed() {
         return true;
@@ -240,8 +247,10 @@ public class TickIncreaseCommand extends Command {
                 if (player != context.getPlayer()) {
                     player.teleportTo(((int)limboLocation.x + 1) - 0.5, ((int)limboLocation.y + 2) + 0.5, ((int) limboLocation.z + 1) - 0.5);
                     player.setGameMode(GameType.ADVENTURE);
+                    playerInLimbo.add(player.getPlainTextName());
+                    playerInLimbo.add(Objects.requireNonNull(context.getPlayer()).getPlainTextName());
                 }
-            }
+            } limboOn = true;
             myServer.getGameRules().set(GameRules.ADVANCE_TIME, false, myServer);
             myServer.getGameRules().set(GameRules.PVP, false, myServer);
             tickBeforeLimbo = tickCounter;
@@ -261,7 +270,7 @@ public class TickIncreaseCommand extends Command {
             tickCounter = tickBeforeLimbo;
             for (ServerPlayer player : myServer.getPlayerList().getPlayers()) {
                     player.setGameMode(GameType.SURVIVAL);
-            }
+            } limboOn = false;
         }
         return 1;
     }
