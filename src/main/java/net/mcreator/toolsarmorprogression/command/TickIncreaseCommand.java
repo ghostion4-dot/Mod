@@ -11,22 +11,30 @@ import net.mcreator.toolsarmorprogression.procedures.WorldBorderProcedure;
 import net.mcreator.toolsarmorprogression.utils.PermissionManager;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.SharedSuggestionProvider;
+import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.protocol.game.ClientboundSetActionBarTextPacket;
 import net.minecraft.network.protocol.game.ClientboundSetSubtitleTextPacket;
 import net.minecraft.network.protocol.game.ClientboundSoundPacket;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.level.GameType;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.gamerules.GameRules;
+import net.minecraft.world.phys.Vec3;
 
 import java.util.List;
 import java.util.Objects;
 
-import static net.mcreator.toolsarmorprogression.Toolsarmorprogression.myWorld;
-import static net.mcreator.toolsarmorprogression.Toolsarmorprogression.tiers;
+import static net.mcreator.toolsarmorprogression.Toolsarmorprogression.*;
 
 public class TickIncreaseCommand extends Command {
+    static int tickBeforeLimbo;
+    static Vec3 limboLocation;
     @Override
     public boolean isAllowed() {
         return true;
@@ -123,6 +131,12 @@ public class TickIncreaseCommand extends Command {
                         ) .executes(context -> enableProgressiveBorder(
                                 context.getSource(),
                                 StringArgumentType.getString(context, "enable")))))
+        ); dispatcher.register((literal("limbo") .requires(PermissionManager::isAdmin)
+                .then(argument("enable", StringArgumentType.greedyString())
+                .suggests(((context, builder) -> SharedSuggestionProvider.suggest(List.of("true","false"), builder))
+                ) .executes(context -> setLimbo(
+                        context.getSource(),
+                        StringArgumentType.getString(context, "enable")))))
         );
     }
     public static int addTicks(CommandSourceStack context, String x, boolean isDay) {
@@ -132,9 +146,6 @@ public class TickIncreaseCommand extends Command {
             Toolsarmorprogression.tickCounter += Integer.parseInt(x);
         }
         context.sendSuccess(() -> Component.literal("Successfully added " + Toolsarmorprogression.tickCounter + " ticks to tick counter"), false);
-        return 1;
-    } public static int getTick(CommandSourceStack context) {
-        context.sendSuccess(() -> Component.literal(String.valueOf(Toolsarmorprogression.tickCounter)), true);
         return 1;
     } public static int setTicks(CommandSourceStack context, String x, boolean isDay) {
         if (isDay) {
@@ -212,5 +223,46 @@ public class TickIncreaseCommand extends Command {
             player.connection.send(soundPacket);
         }
         return 0;
+    } public static int setLimbo(CommandSourceStack context, String enable) {
+        if (enable.equals("true")) {
+            limboLocation = context.getPosition();
+            myWorld.setBlock(new BlockPos((int) limboLocation.x, (int) (limboLocation.y + 1), (int) limboLocation.z), Blocks.BARRIER.defaultBlockState(), 10);
+            myWorld.setBlock(new BlockPos((int) limboLocation.x, (int) (limboLocation.y + 4), (int) limboLocation.z), Blocks.BARRIER.defaultBlockState(), 10);
+            myWorld.setBlock(new BlockPos((int) limboLocation.x + 1, (int) (limboLocation.y + 2), (int) limboLocation.z), Blocks.BARRIER.defaultBlockState(), 10);
+            myWorld.setBlock(new BlockPos((int) limboLocation.x - 1, (int) (limboLocation.y + 2), (int) limboLocation.z), Blocks.BARRIER.defaultBlockState(), 10);
+            myWorld.setBlock(new BlockPos((int) limboLocation.x + 1, (int) (limboLocation.y + 3), (int) limboLocation.z), Blocks.BARRIER.defaultBlockState(), 10);
+            myWorld.setBlock(new BlockPos((int) limboLocation.x - 1, (int) (limboLocation.y + 3), (int) limboLocation.z), Blocks.BARRIER.defaultBlockState(), 10);
+            myWorld.setBlock(new BlockPos((int) limboLocation.x, (int) (limboLocation.y + 2), (int) limboLocation.z -1), Blocks.BARRIER.defaultBlockState(), 10);
+            myWorld.setBlock(new BlockPos((int) limboLocation.x, (int) (limboLocation.y + 2), (int) limboLocation.z + 1), Blocks.BARRIER.defaultBlockState(), 10);
+            myWorld.setBlock(new BlockPos((int) limboLocation.x, (int) (limboLocation.y + 3), (int) limboLocation.z + 1), Blocks.BARRIER.defaultBlockState(), 10);
+            myWorld.setBlock(new BlockPos((int) limboLocation.x, (int) (limboLocation.y + 3), (int) limboLocation.z - 1), Blocks.BARRIER.defaultBlockState(), 10);
+            for (ServerPlayer player : myServer.getPlayerList().getPlayers()) {
+                if (player != context.getPlayer()) {
+                    player.teleportTo(((int)limboLocation.x + 1) - 0.5, ((int)limboLocation.y + 2) + 0.5, ((int) limboLocation.z + 1) - 0.5);
+                    player.setGameMode(GameType.ADVENTURE);
+                }
+            }
+            myServer.getGameRules().set(GameRules.ADVANCE_TIME, false, myServer);
+            myServer.getGameRules().set(GameRules.PVP, false, myServer);
+            tickBeforeLimbo = tickCounter;
+        } else {
+            myWorld.setBlock(new BlockPos((int) limboLocation.x, (int) (limboLocation.y + 1), (int) limboLocation.z), Blocks.AIR.defaultBlockState(), 10);
+            myWorld.setBlock(new BlockPos((int) limboLocation.x, (int) (limboLocation.y + 4), (int) limboLocation.z), Blocks.AIR.defaultBlockState(), 10);
+            myWorld.setBlock(new BlockPos((int) limboLocation.x + 1, (int) (limboLocation.y + 2), (int) limboLocation.z), Blocks.AIR.defaultBlockState(), 10);
+            myWorld.setBlock(new BlockPos((int) limboLocation.x - 1, (int) (limboLocation.y + 2), (int) limboLocation.z), Blocks.AIR.defaultBlockState(), 10);
+            myWorld.setBlock(new BlockPos((int) limboLocation.x + 1, (int) (limboLocation.y + 3), (int) limboLocation.z), Blocks.AIR.defaultBlockState(), 10);
+            myWorld.setBlock(new BlockPos((int) limboLocation.x - 1, (int) (limboLocation.y + 3), (int) limboLocation.z), Blocks.AIR.defaultBlockState(), 10);
+            myWorld.setBlock(new BlockPos((int) limboLocation.x, (int) (limboLocation.y + 2), (int) limboLocation.z -1), Blocks.AIR.defaultBlockState(), 10);
+            myWorld.setBlock(new BlockPos((int) limboLocation.x, (int) (limboLocation.y + 2), (int) limboLocation.z + 1), Blocks.AIR.defaultBlockState(), 10);
+            myWorld.setBlock(new BlockPos((int) limboLocation.x, (int) (limboLocation.y + 3), (int) limboLocation.z + 1), Blocks.AIR.defaultBlockState(), 10);
+            myWorld.setBlock(new BlockPos((int) limboLocation.x, (int) (limboLocation.y + 3), (int) limboLocation.z - 1), Blocks.AIR.defaultBlockState(), 10);
+            myServer.getGameRules().set(GameRules.ADVANCE_TIME, true, myServer);
+            myServer.getGameRules().set(GameRules.PVP, true, myServer);
+            tickCounter = tickBeforeLimbo;
+            for (ServerPlayer player : myServer.getPlayerList().getPlayers()) {
+                    player.setGameMode(GameType.SURVIVAL);
+            }
+        }
+        return 1;
     }
 }
