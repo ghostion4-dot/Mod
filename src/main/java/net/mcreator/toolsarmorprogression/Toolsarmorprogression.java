@@ -19,6 +19,8 @@ import net.fabricmc.loader.api.FabricLoader;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.api.EnvType;
+
+import java.util.Objects;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.Queue;
 import java.util.PriorityQueue;
@@ -112,8 +114,8 @@ public class Toolsarmorprogression implements ModInitializer {
 			RemoveItemsProcedure.doPlayersHaveNetherite(maxNetherite, myWorld );
 			if (tickCounter%100 == 10) {
 				RemoveItemsProcedure.writeTickToFile();
-				PlayerDeathRoleProcedure.playerDeaths();
-			}
+
+			} if (tickCounter%200 == 100) PlayerDeathRoleProcedure.playerDeaths();
 			if (tickCounter% 2400== 0) {
 				AntiAfkProcedure.DetectAfk();
 			}
@@ -123,7 +125,7 @@ public class Toolsarmorprogression implements ModInitializer {
 			}
 
 			while (!workQueue.isEmpty() && currentTick >= workQueue.peek().getTick()) {
-				workQueue.poll().run();
+				Objects.requireNonNull(workQueue.poll()).run();
 			}
 		});
 	}

@@ -369,7 +369,7 @@ public class RemoveItemsProcedure {
 						break;
 					case Toolsarmorprogression.diamond + 210:
 						Toolsarmorprogression.maxNetherite = 20;
-						playSoundAndMessage("All netherite", world);
+						playSoundAndMessage("All netherite tools", world);
 						break;
 				}
 			} Toolsarmorprogression.soundQueue = true;
