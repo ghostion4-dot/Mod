@@ -13,10 +13,18 @@ public class PlayerDeathRoleProcedure {
             bw.write("");
         } catch (IOException e) {
             throw new RuntimeException(e);
+        } try (FileWriter bw = new FileWriter("playerTime.txt")) {
+            bw.write("");
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
         for (ServerPlayer player : Toolsarmorprogression.myServer.getPlayerList().getPlayers()) {
             try (FileWriter bw = new FileWriter("playerDeaths.txt", true)) {
                 bw.write("\n" + player.getPlainTextName() + " " + player.getStats().getValue(Stats.CUSTOM.get(Stats.DEATHS)));
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            } try (FileWriter bw = new FileWriter("playerTime.txt", true)) {
+                bw.write("\n" + player.getPlainTextName() + " " + player.getStats().getValue(Stats.CUSTOM.get(Stats.PLAY_TIME)));
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
