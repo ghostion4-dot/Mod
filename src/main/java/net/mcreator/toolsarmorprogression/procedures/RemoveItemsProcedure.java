@@ -2,11 +2,15 @@ package net.mcreator.toolsarmorprogression.procedures;
 
 import net.mcreator.toolsarmorprogression.Toolsarmorprogression;
 import net.mcreator.toolsarmorprogression.command.TickIncreaseCommand;
+import net.minecraft.core.Holder;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.protocol.game.ClientboundClearTitlesPacket;
 import net.minecraft.network.protocol.game.ClientboundSetTitleTextPacket;
+import net.minecraft.network.protocol.game.ClientboundSoundPacket;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.item.Item;
@@ -303,9 +307,9 @@ public class RemoveItemsProcedure {
 	}
 
 	public static void playSoundAndMessage(String tool, LevelAccessor world) {
-		for (Player player : world.players()) {
+		for (ServerPlayer player : Toolsarmorprogression.myServer.getPlayerList().getPlayers()) {
 
-				player.playSound(SoundEvents.UI_TOAST_CHALLENGE_COMPLETE);
+			ClientboundSoundPacket soundPacket = new ClientboundSoundPacket(Holder.direct(SoundEvents.UI_TOAST_CHALLENGE_COMPLETE), SoundSource.MASTER, player.getX(),player.getY(),player.getZ(),0.8f, 1.0f, world.getRandom().nextLong());
 				Toolsarmorprogression.soundPlayed = true;
 			}
 
