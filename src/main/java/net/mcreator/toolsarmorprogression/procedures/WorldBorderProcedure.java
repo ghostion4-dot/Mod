@@ -10,7 +10,7 @@ public class WorldBorderProcedure {
     public static boolean borderOn;
     public static void increaseBorder() {
         if (borderOn) {
-            Objects.requireNonNull(Toolsarmorprogression.myServer.getLevel(Level.OVERWORLD)).getWorldBorder().setSize(((double) Toolsarmorprogression.tickCounter /24000) * 128 + 128);
+            Objects.requireNonNull(Toolsarmorprogression.myServer.getLevel(Level.OVERWORLD)).getWorldBorder().setSize(((double) Toolsarmorprogression.tickCounter /24000) * 64 + 256);
             Objects.requireNonNull(Toolsarmorprogression.myServer.getLevel(Level.NETHER)).getWorldBorder().setSize(((double) Toolsarmorprogression.tickCounter /24000) * 32 + 32);
             System.out.println(Toolsarmorprogression.myWorld.getWorldBorder().getSize());
         } else {

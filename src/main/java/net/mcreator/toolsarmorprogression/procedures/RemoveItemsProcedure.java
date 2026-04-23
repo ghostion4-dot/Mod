@@ -309,7 +309,8 @@ public class RemoveItemsProcedure {
 	public static void playSoundAndMessage(String tool, LevelAccessor world) {
 		for (ServerPlayer player : Toolsarmorprogression.myServer.getPlayerList().getPlayers()) {
 
-			ClientboundSoundPacket soundPacket = new ClientboundSoundPacket(Holder.direct(SoundEvents.UI_TOAST_CHALLENGE_COMPLETE), SoundSource.MASTER, player.getX(),player.getY(),player.getZ(),0.8f, 1.0f, world.getRandom().nextLong());
+			ClientboundSoundPacket soundPacket = new ClientboundSoundPacket(Holder.direct(SoundEvents.UI_TOAST_CHALLENGE_COMPLETE), SoundSource.MASTER, player.getX(),player.getY(),player.getZ(),0.3f, 1.0f, world.getRandom().nextLong());
+			player.connection.send(soundPacket);
 				Toolsarmorprogression.soundPlayed = true;
 			}
 
