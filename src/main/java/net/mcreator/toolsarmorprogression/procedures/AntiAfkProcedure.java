@@ -29,7 +29,6 @@ public class AntiAfkProcedure {
             }
         } catch (RuntimeException e) {
             System.out.println("AFK procedure broke");
-            throw new RuntimeException(e);
         }
     }
 }

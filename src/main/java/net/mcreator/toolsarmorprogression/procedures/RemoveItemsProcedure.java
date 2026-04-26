@@ -8,7 +8,6 @@ import net.minecraft.network.protocol.game.ClientboundClearTitlesPacket;
 import net.minecraft.network.protocol.game.ClientboundSetTitleTextPacket;
 import net.minecraft.network.protocol.game.ClientboundSoundPacket;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -54,6 +53,7 @@ public class RemoveItemsProcedure {
 	public static boolean timeAnvil = false;
 	public static boolean timeEnchantingTable = false;
 	public static boolean timeEndCrystal = false;
+	static boolean timeSkipped = false;
 	private static final Item[] stone = new Item[]{Items.STONE_PICKAXE, Items.STONE_AXE, Items.STONE_SWORD, Items.STONE_HOE, Items.STONE_SHOVEL, Items.STONE_SPEAR};
 	private static final Item[] wood = new Item[]{Items.WOODEN_PICKAXE, Items.WOODEN_AXE, Items.WOODEN_SWORD, Items.WOODEN_HOE, Items.WOODEN_SHOVEL, Items.WOODEN_SPEAR};
 	private static final Item[] copper = new Item[]{Items.COPPER_PICKAXE, Items.COPPER_AXE, Items.COPPER_SWORD, Items.COPPER_HOE, Items.COPPER_SHOVEL, Items.COPPER_SPEAR, Items.COPPER_HELMET, Items.COPPER_CHESTPLATE, Items.COPPER_LEGGINGS, Items.COPPER_BOOTS};
@@ -76,9 +76,7 @@ public class RemoveItemsProcedure {
 		if (!(entity instanceof ServerPlayer player)) return;
 		if (!Toolsarmorprogression.tickSet) {
 			Toolsarmorprogression.tickSet = true;
-			if (!readTickFromFile()) {
-				Toolsarmorprogression.tickCounter = Math.toIntExact(world.getGameTime());
-			}
+			Toolsarmorprogression.tickCounter = Math.toIntExact(world.getGameTime());
 		} if (TickIncreaseCommand.limboOn) {
 			if (!playerInLimbo.contains(player.getPlainTextName())){
 				player.teleportTo(((int)limboLocation.x + 1) - 0.5, ((int)limboLocation.y + 2) + 0.5, ((int) limboLocation.z + 1) - 0.5);
@@ -249,7 +247,8 @@ public class RemoveItemsProcedure {
 		if (world.getServer() != null) {
 			int deepSleepers = (int) world.players().stream().filter(Player::isSleepingLongEnough).count();
 			int percentage = world.getServer().getGameRules().get(GameRules.PLAYERS_SLEEPING_PERCENTAGE);
-			if (deepSleepers >= Math.max(((long) world.players().size() * percentage / 100), 1)) {
+			if (deepSleepers >= Math.max(((long) world.players().size() * percentage / 100), 1) & !timeSkipped) {
+				timeSkipped = true;
 				System.out.println("There are enough players sleeping");
 				Toolsarmorprogression.tickCounter = 24000 * ((Toolsarmorprogression.tickCounter / 24000) + 1);
 			}
@@ -272,10 +271,10 @@ public class RemoveItemsProcedure {
 			}
 		}
 
-		player.hurt(new DamageSource(world.registryAccess().lookupOrThrow(Registries.DAMAGE_TYPE).getOrThrow(ResourceKey.create(Registries.DAMAGE_TYPE, Identifier.parse("minecraft:bad_respawn_point")))), 1000);
+		player.hurt(new DamageSource(world.registryAccess().lookupOrThrow(Registries.DAMAGE_TYPE).getOrThrow(ResourceKey.create(Registries.DAMAGE_TYPE, Identifier.parse("minecraft:bad_respawn_point")))), 100000);
 	}
 
-	private static boolean readTickFromFile() {
+	public static boolean readTickFromFile() {
 		try {
 			File myObj = new File("tickAmount.txt"); // Create File object
 			if (!myObj.createNewFile() && myObj.length() > 0) {           // Try to create the file
@@ -364,6 +363,7 @@ public class RemoveItemsProcedure {
 		if (world != null) {
 			WorldBorderProcedure.increaseBorder();
 			AttributeRandomizerProcedure.attributeRandomizer();
+			timeSkipped = false;
 			if (Toolsarmorprogression.maxNetherite < 10) {
 				switch (dayCount) {
 					case Toolsarmorprogression.diamond + 30, Toolsarmorprogression.diamond + 60,

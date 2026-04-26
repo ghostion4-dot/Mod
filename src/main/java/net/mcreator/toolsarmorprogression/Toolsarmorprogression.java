@@ -80,6 +80,7 @@ public class Toolsarmorprogression implements ModInitializer {
 				}
 			}
 		}
+		if (RemoveItemsProcedure.readTickFromFile()) tickSet = true;
 		LOGGER.info("Initializing ToolsArmorProgressionMod");
 		CommandRegistrationCallback.EVENT.register(CommandManager::registerAllCommands);
 		ToolsArmorProgressionModProcedures.load();

@@ -179,7 +179,7 @@ public class TickIncreaseCommand extends Command {
         }
     public static int currentlyUnlocked(CommandSourceStack context) {
         for (int i = 0; i < tiers.length; i++) {
-            if (Toolsarmorprogression.tickCounter / 24000 > tiers[i]) {
+            if (Toolsarmorprogression.tickCounter / 24000 >=     tiers[i]) {
                 Objects.requireNonNull(context.getPlayer()).sendSystemMessage(Component.literal(ProgressionTime.next_tier[i] + " unlocked"));
             }
         } context.sendSuccess(() -> Component.literal("That is all"), false); return 1;
