@@ -52,8 +52,6 @@ public class ItemClampingProcedure {
         if (enchantsStored != null) {
             itemStack.set(DataComponents.STORED_ENCHANTMENTS, clampAndBlacklistEnchantments(enchantsStored));
         }
-        ClientboundSetPlayerInventoryPacket packet = new ClientboundSetPlayerInventoryPacket(i, itemStack);
-        player.connection.send(packet);
 
 
     } public static ItemEnchantments blacklistEnchantments(ItemEnchantments enchants) {
