@@ -50,8 +50,6 @@ public class RemoveItemsProcedure {
 	public static boolean timeMace = false;
 	public static boolean timeElytra = false;
 	public static boolean timeTrident = false;
-	public static boolean timeAnvil = false;
-	public static boolean timeEnchantingTable = false;
 	public static boolean timeEndCrystal = false;
 	static boolean timeSkipped = false;
 	private static final Item[] stone = new Item[]{Items.STONE_PICKAXE, Items.STONE_AXE, Items.STONE_SWORD, Items.STONE_HOE, Items.STONE_SHOVEL, Items.STONE_SPEAR};
@@ -60,10 +58,9 @@ public class RemoveItemsProcedure {
 	private static final Item[] gold = new Item[]{Items.GOLDEN_PICKAXE, Items.GOLDEN_AXE, Items.GOLDEN_SWORD, Items.GOLDEN_HOE, Items.GOLDEN_SHOVEL, Items.GOLDEN_SPEAR, Items.GOLDEN_HELMET, Items.GOLDEN_CHESTPLATE, Items.GOLDEN_LEGGINGS, Items.GOLDEN_BOOTS};
 	private static final Item[] iron = new Item[]{Items.IRON_PICKAXE, Items.IRON_AXE, Items.IRON_SWORD, Items.IRON_HOE, Items.IRON_SHOVEL, Items.IRON_SPEAR, Items.IRON_HELMET, Items.IRON_CHESTPLATE, Items.IRON_LEGGINGS, Items.IRON_BOOTS, Items.SHIELD};
 	private static final Item[] chainmail = new Item[]{Items.CHAINMAIL_HELMET, Items.CHAINMAIL_CHESTPLATE, Items.CHAINMAIL_LEGGINGS, Items.CHAINMAIL_BOOTS};
-	private static final Item[] diamond = new Item[]{Items.DIAMOND_PICKAXE, Items.DIAMOND_AXE, Items.DIAMOND_SWORD, Items.DIAMOND_HOE, Items.DIAMOND_SHOVEL, Items.DIAMOND_SPEAR, Items.DIAMOND_HELMET, Items.DIAMOND_CHESTPLATE, Items.DIAMOND_LEGGINGS, Items.DIAMOND_BOOTS, Items.ENCHANTING_TABLE, Items.END_CRYSTAL};
+	private static final Item[] diamond = new Item[]{Items.DIAMOND_PICKAXE, Items.DIAMOND_AXE, Items.DIAMOND_SWORD, Items.DIAMOND_HOE, Items.DIAMOND_SHOVEL, Items.DIAMOND_SPEAR, Items.DIAMOND_HELMET, Items.DIAMOND_CHESTPLATE, Items.DIAMOND_LEGGINGS, Items.DIAMOND_BOOTS};
 	private static final Item[] netherite = new Item[]{Items.NETHERITE_PICKAXE, Items.NETHERITE_AXE, Items.NETHERITE_SWORD, Items.NETHERITE_HOE, Items.NETHERITE_SHOVEL, Items.NETHERITE_SPEAR, Items.NETHERITE_HELMET, Items.NETHERITE_CHESTPLATE, Items.NETHERITE_LEGGINGS, Items.NETHERITE_BOOTS};
-	private static final Item[] anvil = new Item[]{Items.ANVIL, Items.CHIPPED_ANVIL, Items.DAMAGED_ANVIL};
-	private static final Item[] permaBan = new Item[]{Items.ENCHANTED_BOOK, Items.TOTEM_OF_UNDYING};
+	private static final Item[] permaBan = new Item[]{Items.TOTEM_OF_UNDYING};
 	private static final Item[] bob = new Item[]{Items.PUFFERFISH, Items.PUFFERFISH_BUCKET};
 
 	public RemoveItemsProcedure() {
@@ -209,17 +206,6 @@ public class RemoveItemsProcedure {
 
 
 		}
-		if (!timeAnvil) {
-			if ((Toolsarmorprogression.tickCounter / 24000) < Toolsarmorprogression.anvil) {
-
-				for (Item item : anvil)
-					if (hasEntityInInventory(player, new ItemStack(item)))
-						playerIsNaughty(player, item, world, x, y, z);
-			} else {
-				timeAnvil = true;
-				playSoundAndMessage("Anvil", world);
-			}
-		}
 		if (!timeMace) {
 			if ((Toolsarmorprogression.tickCounter / 24000) < Toolsarmorprogression.mace) {
 
@@ -229,16 +215,6 @@ public class RemoveItemsProcedure {
 			} else {
 				timeMace = true;
 				playSoundAndMessage("Mace", world);
-			}
-		} if (!timeEnchantingTable) {
-			if ((Toolsarmorprogression.tickCounter / 24000) < Toolsarmorprogression.enchantingTable) {
-
-				if (hasEntityInInventory(player, new ItemStack(Items.ENCHANTING_TABLE)))
-					playerIsNaughty(player, Items.ENCHANTING_TABLE, world, x, y, z);
-
-			} else {
-				timeEnchantingTable = true;
-				playSoundAndMessage("Enchanting table", world);
 			}
 		} if (!timeEndCrystal) {
 			if ((Toolsarmorprogression.tickCounter / 24000) < Toolsarmorprogression.endCrystal) {

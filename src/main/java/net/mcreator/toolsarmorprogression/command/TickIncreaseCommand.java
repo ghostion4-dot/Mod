@@ -169,8 +169,6 @@ public class TickIncreaseCommand extends Command {
         RemoveItemsProcedure.timeElytra = false;
         RemoveItemsProcedure.timeTrident = false;
         RemoveItemsProcedure.timeEndCrystal = false;
-        RemoveItemsProcedure.timeEnchantingTable = false;
-        RemoveItemsProcedure.timeAnvil = false;
         Toolsarmorprogression.soundPlayed = false;
         context.sendSuccess(() -> Component.literal("reset ticks"), true);
         return 1;
