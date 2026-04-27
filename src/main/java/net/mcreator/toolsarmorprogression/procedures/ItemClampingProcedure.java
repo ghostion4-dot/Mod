@@ -110,6 +110,9 @@ public class ItemClampingProcedure {
         }
     } public static List<ResourceKey<Enchantment>> getClampedEnchants() {
         List<ResourceKey<Enchantment>> newList = new ArrayList<>();
+        if (Toolsarmorprogression.myServer == null) {
+            return newList;
+        }
         Registry<Enchantment> enchantmentRegistry = Toolsarmorprogression.myServer.registryAccess().lookupOrThrow(ResourceKey.createRegistryKey(Identifier.withDefaultNamespace("enchantment")));
         for (String enchantmentId : clampedEnchantments) {
             if (!enchantmentId.contains(":")) enchantmentId = "minecraft:" + enchantmentId;
