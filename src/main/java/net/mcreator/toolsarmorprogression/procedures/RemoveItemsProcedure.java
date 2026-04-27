@@ -356,6 +356,7 @@ public class RemoveItemsProcedure {
 					     Toolsarmorprogression.diamond + 90, Toolsarmorprogression.diamond + 120,
 					     Toolsarmorprogression.diamond + 150, Toolsarmorprogression.diamond + 180:
 						Toolsarmorprogression.maxNetherite = ((Toolsarmorprogression.tickCounter/24000) - Toolsarmorprogression.diamond)/30;
+						RemoveEnchantBanProcedure.unbanEnchants();
 						playSoundAndMessage("A new netherite tool", world);
 						break;
 					case Toolsarmorprogression.diamond + 210:

@@ -18,8 +18,8 @@ import java.io.FileNotFoundException;
 import java.util.*;
 
 public class ItemClampingProcedure {
-    static List<String> clampedEnchantments = new ArrayList<>();
-    static List<String> bannedEnchantments = new ArrayList<>();
+    public static List<String> clampedEnchantments = new ArrayList<>();
+    public static List<String> bannedEnchantments = new ArrayList<>();
 
     public static void loadBannedEnchantments() {
         File file = new File("/home/surreoli/Documents/Ice cold/banned enchantments.txt");
@@ -143,7 +143,7 @@ public class ItemClampingProcedure {
         } for (String line : clampedEnchantments) {
             String[] splitLine = line.split(" ");
             result.get(Integer.parseInt(splitLine[1])).add(splitLine[0]);
-        } System.out.println(result);
+        }
         return result;
     }
 
@@ -169,7 +169,6 @@ public class ItemClampingProcedure {
                 System.out.println("[CONFIG] Error parsing enchantment ID: " + enchantmentId);
             }
         }
-
         return newList;
     }
 }
