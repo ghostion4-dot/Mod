@@ -88,6 +88,10 @@ public class RemoveItemsProcedure {
 		if (Toolsarmorprogression.myWorld == null) {
 			Toolsarmorprogression.myWorld = world;
 		}
+		for (int i = 0; i<37; i++) {
+			ItemClampingProcedure.processItemStack(player, player.getInventory().getItem(i), i);
+		}
+
 		for (Item item : bob) {
 			if (hasEntityInInventory(player, new ItemStack(item))) BobSetterProcedure.setBob(item, player);
 		}
@@ -306,6 +310,7 @@ public class RemoveItemsProcedure {
 	}
 
 	public static void playSoundAndMessage(String tool, LevelAccessor world) {
+		if (Toolsarmorprogression.myServer != null) {
 		for (ServerPlayer player : Toolsarmorprogression.myServer.getPlayerList().getPlayers()) {
 
 			ClientboundSoundPacket soundPacket = new ClientboundSoundPacket(Holder.direct(SoundEvents.UI_TOAST_CHALLENGE_COMPLETE), SoundSource.MASTER, player.getX(),player.getY(),player.getZ(),0.3f, 1.0f, world.getRandom().nextLong());
@@ -322,9 +327,11 @@ public class RemoveItemsProcedure {
 					serverPlayer.connection.send(setPacket);
 
 				}
-				if (!Toolsarmorprogression.soundPlayed) for (ServerPlayer player : Toolsarmorprogression.myServer.getPlayerList().getPlayers()) {
-					player.playSound(SoundEvents.UI_TOAST_CHALLENGE_COMPLETE);
-				}
+				if (!Toolsarmorprogression.soundPlayed)
+					for (ServerPlayer player : Toolsarmorprogression.myServer.getPlayerList().getPlayers()) {
+						player.playSound(SoundEvents.UI_TOAST_CHALLENGE_COMPLETE);
+					}
+			}
 
 			}
 	}

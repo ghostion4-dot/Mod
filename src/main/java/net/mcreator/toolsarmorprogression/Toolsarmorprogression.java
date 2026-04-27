@@ -62,6 +62,7 @@ public class Toolsarmorprogression implements ModInitializer {
 		// Start of user code block mod constructor
 		// End of user code block mod constructor
 		// Bubble sort for the tiers array
+		ItemClampingProcedure.loadEnchantments();
 		boolean Sorted = false;
 		while (!Sorted) {
 			Sorted = true;
