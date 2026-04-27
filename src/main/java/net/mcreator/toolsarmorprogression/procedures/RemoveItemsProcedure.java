@@ -376,11 +376,11 @@ public class RemoveItemsProcedure {
 					case Toolsarmorprogression.diamond + 30, Toolsarmorprogression.diamond + 60,
 					     Toolsarmorprogression.diamond + 90, Toolsarmorprogression.diamond + 120,
 					     Toolsarmorprogression.diamond + 150, Toolsarmorprogression.diamond + 180:
-						Toolsarmorprogression.maxNetherite++;
+						Toolsarmorprogression.maxNetherite = ((Toolsarmorprogression.tickCounter/24000) - Toolsarmorprogression.diamond)/30;
 						playSoundAndMessage("A new netherite tool", world);
 						break;
 					case Toolsarmorprogression.diamond + 210:
-						Toolsarmorprogression.maxNetherite = 20;
+						Toolsarmorprogression.maxNetherite = 50;
 						playSoundAndMessage("All netherite tools", world);
 						break;
 				}
