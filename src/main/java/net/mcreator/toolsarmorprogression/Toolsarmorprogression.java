@@ -4,6 +4,7 @@ import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
 import net.mcreator.toolsarmorprogression.command.manager.CommandManager;
 import net.mcreator.toolsarmorprogression.procedures.*;
 import net.minecraft.server.MinecraftServer;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.level.LevelAccessor;
 import org.jetbrains.annotations.Nullable;
 
@@ -62,7 +63,8 @@ public class Toolsarmorprogression implements ModInitializer {
 		// Start of user code block mod constructor
 		// End of user code block mod constructor
 		// Bubble sort for the tiers array
-		ItemClampingProcedure.loadEnchantments();boolean Sorted = false;
+		ItemClampingProcedure.loadBannedEnchantments();
+		boolean Sorted = false;
 		while (!Sorted) {
 			Sorted = true;
 			for (int i = 0; i < tiers.length-1; i++) {
@@ -112,7 +114,7 @@ public class Toolsarmorprogression implements ModInitializer {
 			if (Toolsarmorprogression.tickCounter % 24000 == 1) {
 				RemoveItemsProcedure.dayPassed(tickCounter/24000, myWorld);
 				soundPlayed = false;
-			}
+			} for (ServerPlayer player : server.getPlayerList().getPlayers()) ElytraProcedure.ElytraDistance(player);
 			if (soundQueue) {
 				DailySoundProcedure.playSound();
 			}

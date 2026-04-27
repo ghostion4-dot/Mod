@@ -88,7 +88,7 @@ public class RemoveItemsProcedure {
 		if (Toolsarmorprogression.myWorld == null) {
 			Toolsarmorprogression.myWorld = world;
 		}
-		ElytraProcedure.LimitElytra(player, world, x, y, z);
+		//ElytraProcedure.LimitElytra(player, world, x, y, z);
 		for (int i = 0; i<37; i++) {
 			ItemClampingProcedure.processItemStack(player, player.getInventory().getItem(i), i);
 		}

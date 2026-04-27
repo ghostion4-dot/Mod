@@ -11,46 +11,26 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.enchantment.Enchantment;
-import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.item.enchantment.ItemEnchantments;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.*;
 
 public class ItemClampingProcedure {
     static List<String> clampedEnchantments = new ArrayList<>();
     static List<String> bannedEnchantments = new ArrayList<>();
 
-    public static void loadEnchantments() {
-        clampedEnchantments.add("unbreaking");
-        clampedEnchantments.add("respiration");
-        clampedEnchantments.add("smite");
-        clampedEnchantments.add("unbreaking");
-        clampedEnchantments.add("bane_of_arthropods");
-        clampedEnchantments.add("feather_falling");
-        clampedEnchantments.add("sweeping_edge");
-        clampedEnchantments.add("respiration");
-        clampedEnchantments.add("riptide");
-        bannedEnchantments.add("protection");
-        bannedEnchantments.add("channeling");
-        bannedEnchantments.add("density");
-        bannedEnchantments.add("fire_aspect");
-        bannedEnchantments.add("flame");
-        bannedEnchantments.add("fortune");
-        bannedEnchantments.add("impaling");
-        bannedEnchantments.add("infinity");
-        bannedEnchantments.add("knockback");
-        bannedEnchantments.add("looting");
-        bannedEnchantments.add("loyalty");
-        bannedEnchantments.add("mending");
-        bannedEnchantments.add("multishot");
-        bannedEnchantments.add("power");
-        bannedEnchantments.add("punch");
-        bannedEnchantments.add("quick_charge");
-        bannedEnchantments.add("sharpness");
-        bannedEnchantments.add("sweeping_edge");
-        bannedEnchantments.add("thorns");
-        bannedEnchantments.add("wind_burst");
-        bannedEnchantments.add("breach");
+    public static void loadBannedEnchantments() {
+        File file = new File("/home/surreoli/Documents/Ice cold/banned enchantments.txt");
+        try (Scanner myReader = new Scanner(file)) {
+            while (myReader.hasNextLine()) {
+                bannedEnchantments.add(myReader.nextLine());
+            }
+        } catch (FileNotFoundException e) {
+            System.out.println("An error occurred.");
+            e.printStackTrace();
+        }
 
 
     }
@@ -100,38 +80,76 @@ public class ItemClampingProcedure {
         return builder.toImmutable();
     }
     public static void clampEnchantments(ItemEnchantments enchants) {
-        List<ResourceKey<Enchantment>> clamp = getClampedEnchants();
-        for (it.unimi.dsi.fastutil.objects.Object2IntMap.Entry<Holder<Enchantment>> enchant : enchants.entrySet()) {
-            Optional<ResourceKey<Enchantment>> enchantRegistry = enchant.getKey().unwrapKey();
-            if (enchantRegistry.isEmpty()) continue;
-            if (enchant.getValue() > 1 && clamp.contains(enchantRegistry.get())) {
-                enchant.setValue(1);
+        var clamped = getClampedEnchants();
+        for (int level = 1; level <= 4; level++) {
+            List<ResourceKey<Enchantment>> clamp = clamped.get(level);
+            if (clamp == null) continue;
+            for (it.unimi.dsi.fastutil.objects.Object2IntMap.Entry<Holder<Enchantment>> enchant : enchants.entrySet()) {
+                Optional<ResourceKey<Enchantment>> enchantRegistry = enchant.getKey().unwrapKey();
+                if (enchantRegistry.isEmpty()) continue;
+                if (enchant.getValue() > level && clamp.contains(enchantRegistry.get())) {
+                    enchant.setValue(level);
+                }
             }
         }
-    } public static List<ResourceKey<Enchantment>> getClampedEnchants() {
-        List<ResourceKey<Enchantment>> newList = new ArrayList<>();
+    } public static Map<Integer, List<ResourceKey<Enchantment>>> getClampedEnchants() {
+        Map<Integer, List<ResourceKey<Enchantment>>> newList = new HashMap<>();
+        newList.put(1, new ArrayList<>());
+        newList.put(2, new ArrayList<>());
+        newList.put(3, new ArrayList<>());
+        newList.put(4, new ArrayList<>());
         if (Toolsarmorprogression.myServer == null) {
             return newList;
         }
+        Map<Integer, List<String>> loadedRaw = loadClampedEnchants();
         Registry<Enchantment> enchantmentRegistry = Toolsarmorprogression.myServer.registryAccess().lookupOrThrow(ResourceKey.createRegistryKey(Identifier.withDefaultNamespace("enchantment")));
-        for (String enchantmentId : clampedEnchantments) {
-            if (!enchantmentId.contains(":")) enchantmentId = "minecraft:" + enchantmentId;
+        for (int level = 1; level <= 4; level++) {
+            List<String> enchants = loadedRaw.get(level);
+            if (enchants == null) continue;
+            for (String enchantmentId : enchants) {
+                if (!enchantmentId.contains(":")) enchantmentId = "minecraft:" + enchantmentId;
+                try {
+                    var id = Identifier.parse(enchantmentId);
+                    Enchantment enchantment = enchantmentRegistry.getValue(id);
 
-            try {
-                var id = Identifier.parse(enchantmentId);
-                Enchantment enchantment = enchantmentRegistry.getValue(id);
-                if (enchantment != null) {
-                    newList.add(enchantmentRegistry.getResourceKey(enchantment).orElseThrow());
-                } else {
-                    System.out.println("[CONFIG] Invalid enchantment: " + enchantmentId);
+                    if (enchantment != null) {
+                        newList.get(level).add(enchantmentRegistry.getResourceKey(enchantment).orElseThrow());
+                    } else {
+                        System.out.println("[CONFIG] Invalid enchantment: " + enchantmentId);
+                    }
+                } catch (Exception e) {
+                    System.out.println("[CONFIG] Error parsing enchantment ID: " + enchantmentId);
                 }
-            } catch (Exception e) {
-                System.out.println("[CONFIG] Error parsing enchantment ID: " + enchantmentId);
             }
         }
 
         return newList;
-    } public static List<ResourceKey<Enchantment>> getBannedEnchants() {
+    }
+
+    public static Map<Integer, List<String>> loadClampedEnchants() {
+        Map<Integer, List<String>> result = new HashMap<>();
+        result.put(1, new ArrayList<>());
+        result.put(2, new ArrayList<>());
+        result.put(3, new ArrayList<>());
+        result.put(4, new ArrayList<>());
+        if (clampedEnchantments.isEmpty()) {
+            File file = new File("/home/surreoli/Documents/Ice cold/clamped enchantments.txt");
+            try (Scanner myReader = new Scanner(file)) {
+                while (myReader.hasNextLine()) {
+                    clampedEnchantments.add(myReader.nextLine());
+                }
+            } catch (FileNotFoundException e) {
+                System.out.println("An error occurred.");
+                e.printStackTrace();
+            }
+        } for (String line : clampedEnchantments) {
+            String[] splitLine = line.split(" ");
+            result.get(Integer.parseInt(splitLine[1])).add(splitLine[0]);
+        } System.out.println(result);
+        return result;
+    }
+
+    public static List<ResourceKey<Enchantment>> getBannedEnchants() {
         if (Toolsarmorprogression.myServer == null) return new ArrayList<>();
 
         List<ResourceKey<Enchantment>> newList = new ArrayList<>();
@@ -143,12 +161,7 @@ public class ItemClampingProcedure {
 
             try {
                 var id = Identifier.parse(enchantmentId);
-                //? if <= 1.21 {
-                /*Enchantment enchantment = enchantmentRegistry.get(id);
-                 *///?} else {
                 Enchantment enchantment = enchantmentRegistry.getValue(id);
-                //?}
-
                 if (enchantment != null) {
                     newList.add(enchantmentRegistry.getResourceKey(enchantment).orElseThrow());
                 } else {
