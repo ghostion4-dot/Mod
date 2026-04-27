@@ -62,8 +62,7 @@ public class Toolsarmorprogression implements ModInitializer {
 		// Start of user code block mod constructor
 		// End of user code block mod constructor
 		// Bubble sort for the tiers array
-		ItemClampingProcedure.loadEnchantments();
-		boolean Sorted = false;
+		ItemClampingProcedure.loadEnchantments();boolean Sorted = false;
 		while (!Sorted) {
 			Sorted = true;
 			for (int i = 0; i < tiers.length-1; i++) {
@@ -82,6 +81,10 @@ public class Toolsarmorprogression implements ModInitializer {
 			}
 		}
 		if (RemoveItemsProcedure.readTickFromFile()) tickSet = true;
+		maxNetherite = Math.max(((tickCounter/24000) - diamond)/30,0);
+		if (maxNetherite > 6) {
+			maxNetherite = 50;
+		}
 		LOGGER.info("Initializing ToolsArmorProgressionMod");
 		CommandRegistrationCallback.EVENT.register(CommandManager::registerAllCommands);
 		ToolsArmorProgressionModProcedures.load();
