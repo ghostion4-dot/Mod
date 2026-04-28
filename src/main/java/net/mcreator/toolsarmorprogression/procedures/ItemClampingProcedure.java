@@ -96,12 +96,13 @@ public class ItemClampingProcedure {
         newList.put(2, new ArrayList<>());
         newList.put(3, new ArrayList<>());
         newList.put(4, new ArrayList<>());
+        newList.put(5, new ArrayList<>());
         if (Toolsarmorprogression.myServer == null) {
             return newList;
         }
         Map<Integer, List<String>> loadedRaw = loadClampedEnchants();
         Registry<Enchantment> enchantmentRegistry = Toolsarmorprogression.myServer.registryAccess().lookupOrThrow(ResourceKey.createRegistryKey(Identifier.withDefaultNamespace("enchantment")));
-        for (int level = 1; level <= 4; level++) {
+        for (int level = 1; level <= 5; level++) {
             List<String> enchants = loadedRaw.get(level);
             if (enchants == null) continue;
             for (String enchantmentId : enchants) {
@@ -130,6 +131,7 @@ public class ItemClampingProcedure {
         result.put(2, new ArrayList<>());
         result.put(3, new ArrayList<>());
         result.put(4, new ArrayList<>());
+        result.put(5, new ArrayList<>());
         if (clampedEnchantments.isEmpty()) {
             File file = new File("/home/surreoli/Documents/Ice cold/clamped enchantments.txt");
             try (Scanner myReader = new Scanner(file)) {

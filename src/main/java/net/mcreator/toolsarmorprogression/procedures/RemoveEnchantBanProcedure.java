@@ -17,6 +17,7 @@ public class RemoveEnchantBanProcedure {
     static String[] clampToLevel2;
     static String[] clampToLevel3;
     static String[] clampToLevel4;
+    static String[] clampToLevel5;
     static String[] unclamp;
     public static void unbanEnchants() {
         int section = ((tickCounter/24000) - diamond)/30;
@@ -38,18 +39,29 @@ public class RemoveEnchantBanProcedure {
                 unban = new String[]{"sweeping_edge", "punch", "impaling"};
                 bannedEnchantments.removeAll(List.of(unban));
                 clampToLevel1 = new String[]{"sweeping_edge", "punch"};
-                clampToLevel2 = new String[]{"sharpness", "power", "breach", "wind_burst", "density"};
-                clampToLevel3 = new String[]{"smite", "bane_of_arthropods"};
+                clampToLevel2 = new String[]{"sharpness", "power", "breach", "wind_burst", "density", "protection", "loyalty"};
+                clampToLevel3 = new String[]{"smite", "bane_of_arthropods", "efficiency", "fire_protection", "blast_protection",
+                        "projectile_protection", "feather_falling"};
                 clampTo(1, clampToLevel1);
                 clampTo(2, clampToLevel2);
                 clampTo(3, clampToLevel3);
                 break;
             case 3:
                 unban = new String[]{"fire_aspect", "multishot", "flame"};
+                bannedEnchantments.removeAll(List.of(unban));
                 clampToLevel1 = new String[]{"fire_aspect"};
-                clampToLevel2 = new String[]{"protection", ""};
+                clampToLevel2 = new String[]{"fortune", "looting", "quick_charge", "thorns", "knockback", "wind_burst"};
+                clampToLevel3 = new String[]{"loyalty", "breach", "density"};
+                clampToLevel4 = new String[]{"smite", "bane_of_arthropods"};
                 clampTo(1, clampToLevel1);
+                clampTo(2, clampToLevel2);
+                clampTo(3, clampToLevel3);
+                clampTo(4, clampToLevel4);
                 break;
+            case 4:
+                unban = new String[]{"infinity"};
+                bannedEnchantments.removeAll(List.of(unban));
+
         }
         try (BufferedWriter bw = new BufferedWriter(new FileWriter("/home/surreoli/Documents/Ice cold/clamped enchantments.txt"))) {
             for (String clamped : clampedEnchantments) {

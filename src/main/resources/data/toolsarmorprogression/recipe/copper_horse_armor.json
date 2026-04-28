@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "F F",
+    "FLF",
+    "F F"
+  ], "key": {
+  "F": "minecraft:copper_ingot",
+  "L": "minecraft:leather"
+},
+  "result": {
+    "id": "minecraft:copper_horse_armor",
+    "count": 1
+  }
+
+}
