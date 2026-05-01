@@ -4,10 +4,7 @@ import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.arguments.StringArgumentType;
 import net.mcreator.toolsarmorprogression.Toolsarmorprogression;
 import net.mcreator.toolsarmorprogression.command.manager.Command;
-import net.mcreator.toolsarmorprogression.procedures.AttributeRandomizerProcedure;
-import net.mcreator.toolsarmorprogression.procedures.ProgressionTime;
-import net.mcreator.toolsarmorprogression.procedures.RemoveItemsProcedure;
-import net.mcreator.toolsarmorprogression.procedures.WorldBorderProcedure;
+import net.mcreator.toolsarmorprogression.procedures.*;
 import net.mcreator.toolsarmorprogression.utils.PermissionManager;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.SharedSuggestionProvider;
@@ -112,9 +109,13 @@ public class TickIncreaseCommand extends Command {
                                         )
                                 ))));
         dispatcher.register(
-                literal("tickReset")
+                literal("reset")
                         .requires(PermissionManager::isAdmin)
+                        .then(literal("ticks")
                         .executes(context -> resetTick(context.getSource()))
+
+        ) .then(literal("enchants")
+                                .executes(context -> resetEnchants(context.getSource())))
         ); dispatcher.register(literal("unlocked")
                 .executes(context -> currentlyUnlocked(
                         context.getSource()
@@ -271,5 +272,12 @@ public class TickIncreaseCommand extends Command {
             return 1;
         }
         return -1;
+    } public static int resetEnchants(CommandSourceStack context) {
+        ItemClampingProcedure.clampedEnchantments.clear();
+        ItemClampingProcedure.getClampedEnchants();
+        ItemClampingProcedure.getBannedEnchants();
+        context.sendSuccess(() -> Component.literal("Reset enchantments"), true);
+        return 1;
+
     }
 }

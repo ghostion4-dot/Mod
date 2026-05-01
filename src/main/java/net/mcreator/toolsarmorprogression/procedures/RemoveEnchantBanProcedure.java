@@ -26,7 +26,7 @@ public class RemoveEnchantBanProcedure {
                 unban = new String[]{"protection", "channeling", "density", "fortune", "knockback", "looting", "loyalty", "power",
                         "quick_charge", "sharpness", "thorns", "wind_burst", "breach"};
                 bannedEnchantments.removeAll(List.of(unban));
-                clampToLevel1 = new String[]{"protection", "density", "fortune", "knockback", "looting", "loyalty", "power",
+                clampToLevel1 = new String[]{"unbreaking", "protection", "density", "fortune", "knockback", "looting", "loyalty", "power",
                         "quick_charge", "sharpness", "thorns", "wind_burst", "breach"};
                 clampToLevel2 = new String[]{"smite", "bane_of_arthropods", "feather_falling", "fire_protection", "blast_protection",
                         "projectile_protection"};
