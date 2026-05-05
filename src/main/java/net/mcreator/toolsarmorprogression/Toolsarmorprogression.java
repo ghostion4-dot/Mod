@@ -21,6 +21,7 @@ import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.api.EnvType;
 
+import java.io.IOException;
 import java.util.Objects;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.Queue;
@@ -32,7 +33,6 @@ import java.lang.invoke.MethodHandles;
 import java.lang.invoke.MethodHandle;
 
 import it.unimi.dsi.fastutil.ints.IntObjectPair;
-import it.unimi.dsi.fastutil.ints.IntObjectImmutablePair;
 
 public class Toolsarmorprogression implements ModInitializer {
 	public static final Logger LOGGER = LogManager.getLogger(Toolsarmorprogression.class);
@@ -99,11 +99,6 @@ public class Toolsarmorprogression implements ModInitializer {
 	// End of user code block mod methods
 	private static final Queue<IntObjectPair<Runnable>> workToBeScheduled = new ConcurrentLinkedQueue<>();
 	private static final PriorityQueue<TickTask> workQueue = new PriorityQueue<>(Comparator.comparingInt(TickTask::getTick));
-
-	public static void queueServerWork(int delay, Runnable action) {
-		workToBeScheduled.add(new IntObjectImmutablePair<>(delay, action));
-	}
-
 	private void tick() {
 		ServerTickEvents.END_SERVER_TICK.register((server) -> {
 			if (myServer != server) {
@@ -111,6 +106,13 @@ public class Toolsarmorprogression implements ModInitializer {
 			}
 			int currentTick = server.getTickCount();
 			tickCounter++;
+			if ((Toolsarmorprogression.tickCounter/24000) % 5 == 0 & Toolsarmorprogression.tickCounter % 24000 == 0) {
+                try {
+                    BackupWorldProcedure.BackupWorldFile();
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            }
 			if (Toolsarmorprogression.tickCounter % 24000 == 1) {
 				RemoveItemsProcedure.dayPassed(tickCounter/24000, myWorld);
 				soundPlayed = false;

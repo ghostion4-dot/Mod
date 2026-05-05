@@ -1,16 +1,7 @@
 package net.mcreator.toolsarmorprogression.procedures;
 
-import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
-import net.mcreator.toolsarmorprogression.Toolsarmorprogression;
-import net.minecraft.commands.CommandSourceStack;
-import net.minecraft.core.component.DataComponents;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.EquipmentSlot;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
-import net.minecraft.world.level.LevelAccessor;
 
 import java.util.ArrayList;
 import java.util.List;
