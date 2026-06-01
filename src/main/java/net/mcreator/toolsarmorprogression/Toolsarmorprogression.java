@@ -3,6 +3,7 @@ package net.mcreator.toolsarmorprogression;
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
 import net.mcreator.toolsarmorprogression.command.manager.CommandManager;
 import net.mcreator.toolsarmorprogression.procedures.*;
+import net.minecraft.client.color.item.Firework;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.level.LevelAccessor;
@@ -34,11 +35,12 @@ import java.lang.invoke.MethodHandle;
 
 import it.unimi.dsi.fastutil.ints.IntObjectPair;
 
-public class Toolsarmorprogression implements ModInitializer {
+public class 	Toolsarmorprogression implements ModInitializer {
 	public static final Logger LOGGER = LogManager.getLogger(Toolsarmorprogression.class);
 	public static final String MODID = "tools__armor_progression";
 	public static final int wood = 0;// In days
 	public static final int stone = 1; // In days
+
 	public static final int copper = 4;// In days
 	public static final int gold = 8;// In days
 	public static final int chainmail = 8;// In days
@@ -106,7 +108,7 @@ public class Toolsarmorprogression implements ModInitializer {
 			}
 			int currentTick = server.getTickCount();
 			tickCounter++;
-			if ((Toolsarmorprogression.tickCounter/24000) % 5 == 0 & Toolsarmorprogression.tickCounter % 24000 == 0) {
+			if ((Toolsarmorprogression.tickCounter/24000) % 5 == 0 & Toolsarmorprogression.tickCounter % 24000 == 1) {
                 try {
                     BackupWorldProcedure.BackupWorldFile();
                 } catch (IOException e) {

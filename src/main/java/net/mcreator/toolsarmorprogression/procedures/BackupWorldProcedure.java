@@ -1,6 +1,7 @@
 package net.mcreator.toolsarmorprogression.procedures;
 
 import net.mcreator.toolsarmorprogression.Toolsarmorprogression;
+import net.minecraft.commands.CommandSourceStack;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -11,7 +12,9 @@ import java.util.Scanner;
 public class BackupWorldProcedure {
     public static String pathOfExe = "";
     public static String pathToBackup = "";
+    public static int count = 0;
     public static void BackupWorldFile() throws IOException {
+        Toolsarmorprogression.myServer.getCommands().performPrefixedCommand(Toolsarmorprogression.myServer.createCommandSourceStack(), "save-all");
         File config = new File("config/backup.txt");
         File configFolder = new File("config");
         System.out.println(configFolder.getAbsolutePath());
@@ -60,8 +63,8 @@ public class BackupWorldProcedure {
             }
         } if (!pathToBackup.isEmpty() & !pathOfExe.isEmpty()) {
             try {
-                int number = ((Toolsarmorprogression.tickCounter/24000)%5) + 1;
-                ProcessBuilder processBuilder = new ProcessBuilder(pathOfExe, configFolder.getAbsolutePath() , pathToBackup + "/world" + number + ".tar.gz");
+                count = ((Toolsarmorprogression.tickCounter/24000));
+                ProcessBuilder processBuilder = new ProcessBuilder(pathOfExe, configFolder.getAbsolutePath() , pathToBackup + "/world" + count + ".tar.gz");
                 processBuilder.inheritIO();
                 Process process = processBuilder.start();
             } catch (IOException e) {

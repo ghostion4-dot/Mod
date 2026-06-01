@@ -14,7 +14,6 @@ public class BobSetterProcedure {
     public static void setBob(Item item, Player player) {
         ItemStack itemStack = new ItemStack(item);
         int x = player.getInventory().findSlotMatchingItem(itemStack);
-
         itemStack.set(DataComponents.CUSTOM_NAME, Component.literal("bob"));
         if (player.getInventory().getSlot(x) != null) {
             int count = player.getInventory().countItem(item);

@@ -7,11 +7,11 @@ import java.util.Objects;
 
 
 public class WorldBorderProcedure {
-    public static boolean borderOn;
+    public static boolean borderOn = true;
     public static void increaseBorder() {
         if (borderOn) {
-            Objects.requireNonNull(Toolsarmorprogression.myServer.getLevel(Level.OVERWORLD)).getWorldBorder().setSize(Math.min(((double) Toolsarmorprogression.tickCounter /24000) * 32 + 1028, 12000));
-            Objects.requireNonNull(Toolsarmorprogression.myServer.getLevel(Level.NETHER)).getWorldBorder().setSize(Math.min(((double) Toolsarmorprogression.tickCounter /24000) * 16 + 128, 1500));
+            Objects.requireNonNull(Toolsarmorprogression.myServer.getLevel(Level.OVERWORLD)).getWorldBorder().setSize(Math.min(((double) Toolsarmorprogression.tickCounter /24000) * 32 + 1028,  8000));
+            Objects.requireNonNull(Toolsarmorprogression.myServer.getLevel(Level.NETHER)).getWorldBorder().setSize(Math.min(((double) Toolsarmorprogression.tickCounter /24000) * 16 + 128, 1000));
             System.out.println(Toolsarmorprogression.myWorld.getWorldBorder().getSize());
         } else {
             Objects.requireNonNull(Toolsarmorprogression.myServer.getLevel(Level.OVERWORLD)).getWorldBorder().setSize(59999968);

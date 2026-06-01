@@ -15,8 +15,10 @@ import net.minecraft.network.protocol.game.ClientboundSoundPacket;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.InteractionHand;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.GameType;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.gamerules.GameRules;
@@ -33,6 +35,8 @@ public class TickIncreaseCommand extends Command {
     public static Vec3 limboLocation;
     public static boolean limboOn;
     public static List<String> playerInLimbo = new ArrayList<>();
+    public static ItemStack newStack;
+    public static ItemStack oldStack;
     @Override
     public boolean isAllowed() {
         return true;
@@ -278,6 +282,5 @@ public class TickIncreaseCommand extends Command {
         ItemClampingProcedure.getBannedEnchants();
         context.sendSuccess(() -> Component.literal("Reset enchantments"), true);
         return 1;
-
     }
 }
