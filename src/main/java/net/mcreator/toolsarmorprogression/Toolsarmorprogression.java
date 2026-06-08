@@ -2,9 +2,7 @@ package net.mcreator.toolsarmorprogression;
 
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
 import net.mcreator.toolsarmorprogression.command.manager.CommandManager;
-import net.mcreator.toolsarmorprogression.procedures.*;
-import net.minecraft.client.color.item.Firework;
-import net.minecraft.server.MinecraftServer;
+import net.mcreator.toolsarmorprogression.procedures.*;import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.level.LevelAccessor;
 import org.jetbrains.annotations.Nullable;

@@ -1,7 +1,6 @@
 package net.mcreator.toolsarmorprogression.procedures;
 
 import net.mcreator.toolsarmorprogression.Toolsarmorprogression;
-import net.minecraft.commands.CommandSourceStack;
 
 import java.io.File;
 import java.io.FileWriter;
