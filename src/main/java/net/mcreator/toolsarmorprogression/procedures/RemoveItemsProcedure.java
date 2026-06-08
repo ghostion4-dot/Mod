@@ -352,14 +352,14 @@ public class RemoveItemsProcedure {
 			timeSkipped = false;
 			if (Toolsarmorprogression.maxNetherite < 10) {
 				switch (dayCount) {
-					case Toolsarmorprogression.diamond + 30, Toolsarmorprogression.diamond + 60,
-					     Toolsarmorprogression.diamond + 90, Toolsarmorprogression.diamond + 120,
-					     Toolsarmorprogression.diamond + 150, Toolsarmorprogression.diamond + 180:
-						Toolsarmorprogression.maxNetherite = ((Toolsarmorprogression.tickCounter/24000) - Toolsarmorprogression.diamond)/30;
+					case Toolsarmorprogression.diamond, Toolsarmorprogression.diamond + 256,
+					     Toolsarmorprogression.diamond + 512, Toolsarmorprogression.diamond + 768,
+					     Toolsarmorprogression.diamond + 1024, Toolsarmorprogression.diamond + 1280:
+						Toolsarmorprogression.maxNetherite = ((Toolsarmorprogression.tickCounter/24000) - Toolsarmorprogression.diamond)/256;
 						RemoveEnchantBanProcedure.unbanEnchants();
 						playSoundAndMessage("A new netherite tool", world);
 						break;
-					case Toolsarmorprogression.diamond + 210:
+					case Toolsarmorprogression.diamond + 1536:
 						Toolsarmorprogression.maxNetherite = 50;
 						playSoundAndMessage("All netherite tools", world);
 						break;

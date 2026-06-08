@@ -56,7 +56,7 @@ public class 	Toolsarmorprogression implements ModInitializer {
 	public static boolean soundPlayed = false;
 	public static int maxNetherite = 0;
 	public static boolean soundQueue = false;
-	public static final int[] tiers = {wood, stone, copper, gold, chainmail, diamond, mace, elytra, iron, trident, diamond + 30, diamond + 60, diamond + 90, diamond + 120, diamond + 150, diamond + 180, diamond + 210};
+	public static final int[] tiers = {wood, stone, copper, gold, chainmail, diamond, mace, elytra, iron, trident, diamond, diamond + 256, diamond + 512, diamond + 768, diamond + 1024, diamond + 1280, diamond + 1536};
 	public static int tickCounter = 0;
 	public static LevelAccessor myWorld;
 	public static boolean tickSet = false;
@@ -85,7 +85,7 @@ public class 	Toolsarmorprogression implements ModInitializer {
 			}
 		}
 		if (RemoveItemsProcedure.readTickFromFile()) tickSet = true;
-		maxNetherite = Math.max(((tickCounter/24000) - diamond)/30,0);
+		maxNetherite = Math.max(((tickCounter/24000) - diamond)/256 + 1, 1);
 		if (maxNetherite > 6) {
 			maxNetherite = 50;
 		}
