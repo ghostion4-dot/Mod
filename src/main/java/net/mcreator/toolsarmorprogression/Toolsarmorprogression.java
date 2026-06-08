@@ -124,7 +124,7 @@ public class 	Toolsarmorprogression implements ModInitializer {
 			if (tickCounter%100 == 10) {
 				RemoveItemsProcedure.writeTickToFile();
 
-			} if (tickCounter%200 == 100) PlayerDeathRoleProcedure.playerDeaths();
+			} if (tickCounter%200 == 100) {PlayerDeathRoleProcedure.playerDeaths();}
 			if (tickCounter% 2400== 0) {
 				AntiAfkProcedure.DetectAfk();
 			}
